@@ -1,0 +1,695 @@
+sil_stage canonical
+
+import Builtin
+import Swift
+import SwiftShims
+
+// Classes.classWrapper : Classes.ClassWrapper
+sil_global [let] @_Tv7Classes12classWrapperVS_12ClassWrapper : $ClassWrapper
+
+// static Swift.Process._argc : Swift.Int32
+sil_global [fragile] @_TZvOs7Process5_argcVs5Int32 : $Int32
+
+// globalinit_33_1BDF70FFC18749BAB495A73B459ED2F0_token5
+sil_global private_external [fragile] @globalinit_33_1BDF70FFC18749BAB495A73B459ED2F0_token5 : $Builtin.Word
+
+// static Swift.Process._unsafeArgv : Swift.UnsafeMutablePointer<Swift.UnsafeMutablePointer<Swift.Int8>>
+sil_global [fragile] @_TZvOs7Process11_unsafeArgvGSpGSpVs4Int8__ : $UnsafeMutablePointer<UnsafeMutablePointer<Int8>>
+
+// main
+sil @main : $@convention(c) (Int32, UnsafeMutablePointer<UnsafeMutablePointer<Int8>>) -> Int32 {
+// %0                                             // user: %3
+// %1                                             // user: %9
+bb0(%0 : $Int32, %1 : $UnsafeMutablePointer<UnsafeMutablePointer<Int8>>):
+  %2 = global_addr @_TZvOs7Process5_argcVs5Int32 : $*Int32 // user: %3
+  store %0 to %2 : $*Int32                        // id: %3
+  %4 = global_addr @globalinit_33_1BDF70FFC18749BAB495A73B459ED2F0_token5 : $*Builtin.Word // user: %5
+  %5 = address_to_pointer %4 : $*Builtin.Word to $Builtin.RawPointer // user: %7
+  // function_ref globalinit_33_1BDF70FFC18749BAB495A73B459ED2F0_func5
+  %6 = function_ref @globalinit_33_1BDF70FFC18749BAB495A73B459ED2F0_func5 : $@convention(thin) () -> () // user: %7
+  %7 = builtin "once"(%5 : $Builtin.RawPointer, %6 : $@convention(thin) () -> ()) : $()
+  %8 = global_addr @_TZvOs7Process11_unsafeArgvGSpGSpVs4Int8__ : $*UnsafeMutablePointer<UnsafeMutablePointer<Int8>> // user: %9
+  store %1 to %8 : $*UnsafeMutablePointer<UnsafeMutablePointer<Int8>> // id: %9
+  %10 = tuple ()
+  alloc_global @_Tv7Classes12classWrapperVS_12ClassWrapper // id: %11
+  %12 = global_addr @_Tv7Classes12classWrapperVS_12ClassWrapper : $*ClassWrapper // user: %16
+  // function_ref Classes.ClassWrapper.init () -> Classes.ClassWrapper
+  %13 = function_ref @_TFV7Classes12ClassWrapperCfT_S0_ : $@convention(thin) (@thin ClassWrapper.Type) -> @owned ClassWrapper // user: %15
+  %14 = metatype $@thin ClassWrapper.Type         // user: %15
+  %15 = apply %13(%14) : $@convention(thin) (@thin ClassWrapper.Type) -> @owned ClassWrapper // user: %16
+  store %15 to %12 : $*ClassWrapper               // id: %16
+  %17 = integer_literal $Builtin.Int32, 0         // user: %18
+  %18 = struct $Int32 (%17 : $Builtin.Int32)      // user: %19
+  return %18 : $Int32                             // id: %19
+}
+
+// Swift._didEnterMain (Swift.Int32, argv : Swift.UnsafeMutablePointer<Swift.UnsafeMutablePointer<Swift.Int8>>) -> ()
+sil [transparent] [fragile] @_TFs13_didEnterMainFTVs5Int324argvGSpGSpVs4Int8___T_ : $@convention(thin) (Int32, UnsafeMutablePointer<UnsafeMutablePointer<Int8>>) -> ()
+
+// Classes.ClassBox.init (A) -> Classes.ClassBox<A>
+sil hidden @_TFC7Classes8ClassBoxcfxGS0_x_ : $@convention(method) <T> (@in T, @owned ClassBox<T>) -> @owned ClassBox<T> {
+// %0                                             // users: %2, %5, %9
+// %1                                             // users: %3, %6, %10
+bb0(%0 : $*T, %1 : $ClassBox<T>):
+  debug_value_addr %0 : $*T, let, name "wrapped", argno 1 // id: %2
+  debug_value %1 : $ClassBox<T>, let, name "self" // id: %3
+  %4 = alloc_stack $T                             // users: %5, %7, %8
+  copy_addr %0 to [initialization] %4 : $*T       // id: %5
+  %6 = ref_element_addr %1 : $ClassBox<T>, #ClassBox.wrapped // user: %7
+  copy_addr [take] %4 to [initialization] %6 : $*T // id: %7
+  dealloc_stack %4 : $*T                          // id: %8
+  destroy_addr %0 : $*T                           // id: %9
+  return %1 : $ClassBox<T>                        // id: %10
+}
+
+// Classes.ClassBox.__allocating_init (A) -> Classes.ClassBox<A>
+sil hidden @_TFC7Classes8ClassBoxCfxGS0_x_ : $@convention(thin) <T> (@in T, @thick ClassBox<T>.Type) -> @owned ClassBox<T> {
+// %0                                             // user: %4
+bb0(%0 : $*T, %1 : $@thick ClassBox<T>.Type):
+  %2 = alloc_ref $ClassBox<T>                     // user: %4
+  // function_ref Classes.ClassBox.init (A) -> Classes.ClassBox<A>
+  %3 = function_ref @_TFC7Classes8ClassBoxcfxGS0_x_ : $@convention(method) <τ_0_0> (@in τ_0_0, @owned ClassBox<τ_0_0>) -> @owned ClassBox<τ_0_0> // user: %4
+  %4 = apply %3<T>(%0, %2) : $@convention(method) <τ_0_0> (@in τ_0_0, @owned ClassBox<τ_0_0>) -> @owned ClassBox<τ_0_0> // user: %5
+  return %4 : $ClassBox<T>                        // id: %5
+}
+
+// Classes.ClassBox.__deallocating_deinit
+sil hidden @_TFC7Classes8ClassBoxD : $@convention(method) <T> (@owned ClassBox<T>) -> () {
+// %0                                             // users: %1, %3
+bb0(%0 : $ClassBox<T>):
+  debug_value %0 : $ClassBox<T>, let, name "self", argno 1 // id: %1
+  // function_ref Classes.ClassBox.deinit
+  %2 = function_ref @_TFC7Classes8ClassBoxd : $@convention(method) <τ_0_0> (@guaranteed ClassBox<τ_0_0>) -> @owned Builtin.NativeObject // user: %3
+  %3 = apply %2<T>(%0) : $@convention(method) <τ_0_0> (@guaranteed ClassBox<τ_0_0>) -> @owned Builtin.NativeObject // user: %4
+  %4 = unchecked_ref_cast %3 : $Builtin.NativeObject to $ClassBox<T> // user: %5
+  dealloc_ref %4 : $ClassBox<T>                   // id: %5
+  %6 = tuple ()                                   // user: %7
+  return %6 : $()                                 // id: %7
+}
+
+// Classes.ClassBox.deinit
+sil hidden @_TFC7Classes8ClassBoxd : $@convention(method) <T> (@guaranteed ClassBox<T>) -> @owned Builtin.NativeObject {
+// %0                                             // users: %1, %2, %3
+bb0(%0 : $ClassBox<T>):
+  debug_value %0 : $ClassBox<T>, let, name "self", argno 1 // id: %1
+  %2 = unchecked_ref_cast %0 : $ClassBox<T> to $Builtin.NativeObject // user: %5
+  %3 = ref_element_addr %0 : $ClassBox<T>, #ClassBox.wrapped // user: %4
+  destroy_addr %3 : $*T                           // id: %4
+  return %2 : $Builtin.NativeObject               // id: %5
+}
+
+// Classes.ClassBox.wrapped.getter : A
+sil hidden [transparent] @_TFC7Classes8ClassBoxg7wrappedx : $@convention(method) <T> (@out T, @guaranteed ClassBox<T>) -> () {
+// %0                                             // user: %4
+// %1                                             // users: %2, %3
+bb0(%0 : $*T, %1 : $ClassBox<T>):
+  debug_value %1 : $ClassBox<T>, let, name "self", argno 1 // id: %2
+  %3 = ref_element_addr %1 : $ClassBox<T>, #ClassBox.wrapped // user: %4
+  copy_addr %3 to [initialization] %0 : $*T       // id: %4
+  %5 = tuple ()                                   // user: %6
+  return %5 : $()                                 // id: %6
+}
+
+// Classes.ClassWrapper.ClassWithLetStruct.__deallocating_deinit
+sil hidden @_TFCV7Classes12ClassWrapper18ClassWithLetStructD : $@convention(method) (@owned ClassWrapper.ClassWithLetStruct) -> () {
+// %0                                             // users: %1, %3
+bb0(%0 : $ClassWrapper.ClassWithLetStruct):
+  debug_value %0 : $ClassWrapper.ClassWithLetStruct, let, name "self", argno 1 // id: %1
+  // function_ref Classes.ClassWrapper.ClassWithLetStruct.deinit
+  %2 = function_ref @_TFCV7Classes12ClassWrapper18ClassWithLetStructd : $@convention(method) (@guaranteed ClassWrapper.ClassWithLetStruct) -> @owned Builtin.NativeObject // user: %3
+  %3 = apply %2(%0) : $@convention(method) (@guaranteed ClassWrapper.ClassWithLetStruct) -> @owned Builtin.NativeObject // user: %4
+  %4 = unchecked_ref_cast %3 : $Builtin.NativeObject to $ClassWrapper.ClassWithLetStruct // user: %5
+  dealloc_ref %4 : $ClassWrapper.ClassWithLetStruct // id: %5
+  %6 = tuple ()                                   // user: %7
+  return %6 : $()                                 // id: %7
+}
+
+// Classes.ClassWrapper.ClassWithLetStruct.deinit
+sil hidden @_TFCV7Classes12ClassWrapper18ClassWithLetStructd : $@convention(method) (@guaranteed ClassWrapper.ClassWithLetStruct) -> @owned Builtin.NativeObject {
+// %0                                             // users: %1, %2
+bb0(%0 : $ClassWrapper.ClassWithLetStruct):
+  debug_value %0 : $ClassWrapper.ClassWithLetStruct, let, name "self", argno 1 // id: %1
+  %2 = unchecked_ref_cast %0 : $ClassWrapper.ClassWithLetStruct to $Builtin.NativeObject // user: %3
+  return %2 : $Builtin.NativeObject               // id: %3
+}
+
+// Classes.ClassWrapper.ClassWithLetStruct.content.getter : Swift.Int
+sil hidden [transparent] @_TFCV7Classes12ClassWrapper18ClassWithLetStructg7contentSi : $@convention(method) (@guaranteed ClassWrapper.ClassWithLetStruct) -> Int {
+// %0                                             // users: %1, %2
+bb0(%0 : $ClassWrapper.ClassWithLetStruct):
+  debug_value %0 : $ClassWrapper.ClassWithLetStruct, let, name "self", argno 1 // id: %1
+  %2 = ref_element_addr %0 : $ClassWrapper.ClassWithLetStruct, #ClassWrapper.ClassWithLetStruct.content // user: %3
+  %3 = load %2 : $*Int                            // user: %4
+  return %3 : $Int                                // id: %4
+}
+
+// Classes.ClassWrapper.ClassWithLetStruct.init () -> Classes.ClassWrapper.ClassWithLetStruct
+sil hidden @_TFCV7Classes12ClassWrapper18ClassWithLetStructcfT_S1_ : $@convention(method) (@owned ClassWrapper.ClassWithLetStruct) -> @owned ClassWrapper.ClassWithLetStruct {
+// %0                                             // users: %1, %4, %6
+bb0(%0 : $ClassWrapper.ClassWithLetStruct):
+  debug_value %0 : $ClassWrapper.ClassWithLetStruct, let, name "self" // id: %1
+  %2 = integer_literal $Builtin.Int64, 5          // user: %3
+  %3 = struct $Int (%2 : $Builtin.Int64)          // user: %5
+  %4 = ref_element_addr %0 : $ClassWrapper.ClassWithLetStruct, #ClassWrapper.ClassWithLetStruct.content // user: %5
+  store %3 to %4 : $*Int                          // id: %5
+  return %0 : $ClassWrapper.ClassWithLetStruct    // id: %6
+}
+
+// Classes.ClassWrapper.ClassWithLetStruct.__allocating_init () -> Classes.ClassWrapper.ClassWithLetStruct
+sil hidden @_TFCV7Classes12ClassWrapper18ClassWithLetStructCfT_S1_ : $@convention(thin) (@thick ClassWrapper.ClassWithLetStruct.Type) -> @owned ClassWrapper.ClassWithLetStruct {
+bb0(%0 : $@thick ClassWrapper.ClassWithLetStruct.Type):
+  %1 = alloc_ref $ClassWrapper.ClassWithLetStruct // user: %3
+  // function_ref Classes.ClassWrapper.ClassWithLetStruct.init () -> Classes.ClassWrapper.ClassWithLetStruct
+  %2 = function_ref @_TFCV7Classes12ClassWrapper18ClassWithLetStructcfT_S1_ : $@convention(method) (@owned ClassWrapper.ClassWithLetStruct) -> @owned ClassWrapper.ClassWithLetStruct // user: %3
+  %3 = apply %2(%1) : $@convention(method) (@owned ClassWrapper.ClassWithLetStruct) -> @owned ClassWrapper.ClassWithLetStruct // user: %4
+  return %3 : $ClassWrapper.ClassWithLetStruct    // id: %4
+}
+
+// Swift.Int.init (_builtinIntegerLiteral : Builtin.Int2048) -> Swift.Int
+sil [transparent] [fragile] @_TFSiCfT22_builtinIntegerLiteralBi2048__Si : $@convention(thin) (Builtin.Int2048, @thin Int.Type) -> Int
+
+// Classes.ClassWrapper.ClassWithVarStruct.__deallocating_deinit
+sil hidden @_TFCV7Classes12ClassWrapper18ClassWithVarStructD : $@convention(method) (@owned ClassWrapper.ClassWithVarStruct) -> () {
+// %0                                             // users: %1, %3
+bb0(%0 : $ClassWrapper.ClassWithVarStruct):
+  debug_value %0 : $ClassWrapper.ClassWithVarStruct, let, name "self", argno 1 // id: %1
+  // function_ref Classes.ClassWrapper.ClassWithVarStruct.deinit
+  %2 = function_ref @_TFCV7Classes12ClassWrapper18ClassWithVarStructd : $@convention(method) (@guaranteed ClassWrapper.ClassWithVarStruct) -> @owned Builtin.NativeObject // user: %3
+  %3 = apply %2(%0) : $@convention(method) (@guaranteed ClassWrapper.ClassWithVarStruct) -> @owned Builtin.NativeObject // user: %4
+  %4 = unchecked_ref_cast %3 : $Builtin.NativeObject to $ClassWrapper.ClassWithVarStruct // user: %5
+  dealloc_ref %4 : $ClassWrapper.ClassWithVarStruct // id: %5
+  %6 = tuple ()                                   // user: %7
+  return %6 : $()                                 // id: %7
+}
+
+// Classes.ClassWrapper.ClassWithVarStruct.deinit
+sil hidden @_TFCV7Classes12ClassWrapper18ClassWithVarStructd : $@convention(method) (@guaranteed ClassWrapper.ClassWithVarStruct) -> @owned Builtin.NativeObject {
+// %0                                             // users: %1, %2
+bb0(%0 : $ClassWrapper.ClassWithVarStruct):
+  debug_value %0 : $ClassWrapper.ClassWithVarStruct, let, name "self", argno 1 // id: %1
+  %2 = unchecked_ref_cast %0 : $ClassWrapper.ClassWithVarStruct to $Builtin.NativeObject // user: %3
+  return %2 : $Builtin.NativeObject               // id: %3
+}
+
+// Classes.ClassWrapper.ClassWithVarStruct.content.getter : Swift.Int
+sil hidden [transparent] @_TFCV7Classes12ClassWrapper18ClassWithVarStructg7contentSi : $@convention(method) (@guaranteed ClassWrapper.ClassWithVarStruct) -> Int {
+// %0                                             // users: %1, %2
+bb0(%0 : $ClassWrapper.ClassWithVarStruct):
+  debug_value %0 : $ClassWrapper.ClassWithVarStruct, let, name "self", argno 1 // id: %1
+  %2 = ref_element_addr %0 : $ClassWrapper.ClassWithVarStruct, #ClassWrapper.ClassWithVarStruct.content // user: %3
+  %3 = load %2 : $*Int                            // user: %4
+  return %3 : $Int                                // id: %4
+}
+
+// Classes.ClassWrapper.ClassWithVarStruct.content.setter : Swift.Int
+sil hidden [transparent] @_TFCV7Classes12ClassWrapper18ClassWithVarStructs7contentSi : $@convention(method) (Int, @guaranteed ClassWrapper.ClassWithVarStruct) -> () {
+// %0                                             // users: %2, %5
+// %1                                             // users: %3, %4
+bb0(%0 : $Int, %1 : $ClassWrapper.ClassWithVarStruct):
+  debug_value %0 : $Int, let, name "value", argno 1 // id: %2
+  debug_value %1 : $ClassWrapper.ClassWithVarStruct, let, name "self", argno 2 // id: %3
+  %4 = ref_element_addr %1 : $ClassWrapper.ClassWithVarStruct, #ClassWrapper.ClassWithVarStruct.content // user: %5
+  store %0 to %4 : $*Int                          // id: %5
+  %6 = tuple ()                                   // user: %7
+  return %6 : $()                                 // id: %7
+}
+
+// Classes.ClassWrapper.ClassWithVarStruct.content.materializeForSet : Swift.Int
+sil hidden [transparent] @_TFCV7Classes12ClassWrapper18ClassWithVarStructm7contentSi : $@convention(method) (Builtin.RawPointer, @inout Builtin.UnsafeValueBuffer, @guaranteed ClassWrapper.ClassWithVarStruct) -> (Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper.ClassWithVarStruct, @thick ClassWrapper.ClassWithVarStruct.Type) -> ()>) {
+// %2                                             // user: %3
+bb0(%0 : $Builtin.RawPointer, %1 : $*Builtin.UnsafeValueBuffer, %2 : $ClassWrapper.ClassWithVarStruct):
+  %3 = ref_element_addr %2 : $ClassWrapper.ClassWithVarStruct, #ClassWrapper.ClassWithVarStruct.content // user: %4
+  %4 = address_to_pointer %3 : $*Int to $Builtin.RawPointer // user: %6
+  %5 = enum $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper.ClassWithVarStruct, @thick ClassWrapper.ClassWithVarStruct.Type) -> ()>, #Optional.None!enumelt // user: %6
+  %6 = tuple (%4 : $Builtin.RawPointer, %5 : $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper.ClassWithVarStruct, @thick ClassWrapper.ClassWithVarStruct.Type) -> ()>) // user: %7
+  return %6 : $(Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper.ClassWithVarStruct, @thick ClassWrapper.ClassWithVarStruct.Type) -> ()>) // id: %7
+}
+
+// Classes.ClassWrapper.ClassWithVarStruct.init () -> Classes.ClassWrapper.ClassWithVarStruct
+sil hidden @_TFCV7Classes12ClassWrapper18ClassWithVarStructcfT_S1_ : $@convention(method) (@owned ClassWrapper.ClassWithVarStruct) -> @owned ClassWrapper.ClassWithVarStruct {
+// %0                                             // users: %1, %4, %6
+bb0(%0 : $ClassWrapper.ClassWithVarStruct):
+  debug_value %0 : $ClassWrapper.ClassWithVarStruct, let, name "self" // id: %1
+  %2 = integer_literal $Builtin.Int64, 5          // user: %3
+  %3 = struct $Int (%2 : $Builtin.Int64)          // user: %5
+  %4 = ref_element_addr %0 : $ClassWrapper.ClassWithVarStruct, #ClassWrapper.ClassWithVarStruct.content // user: %5
+  store %3 to %4 : $*Int                          // id: %5
+  return %0 : $ClassWrapper.ClassWithVarStruct    // id: %6
+}
+
+// Classes.ClassWrapper.ClassWithVarStruct.__allocating_init () -> Classes.ClassWrapper.ClassWithVarStruct
+sil hidden @_TFCV7Classes12ClassWrapper18ClassWithVarStructCfT_S1_ : $@convention(thin) (@thick ClassWrapper.ClassWithVarStruct.Type) -> @owned ClassWrapper.ClassWithVarStruct {
+bb0(%0 : $@thick ClassWrapper.ClassWithVarStruct.Type):
+  %1 = alloc_ref $ClassWrapper.ClassWithVarStruct // user: %3
+  // function_ref Classes.ClassWrapper.ClassWithVarStruct.init () -> Classes.ClassWrapper.ClassWithVarStruct
+  %2 = function_ref @_TFCV7Classes12ClassWrapper18ClassWithVarStructcfT_S1_ : $@convention(method) (@owned ClassWrapper.ClassWithVarStruct) -> @owned ClassWrapper.ClassWithVarStruct // user: %3
+  %3 = apply %2(%1) : $@convention(method) (@owned ClassWrapper.ClassWithVarStruct) -> @owned ClassWrapper.ClassWithVarStruct // user: %4
+  return %3 : $ClassWrapper.ClassWithVarStruct    // id: %4
+}
+
+// Classes.ClassWrapper.ClassWithLetClass.__deallocating_deinit
+sil hidden @_TFCV7Classes12ClassWrapper17ClassWithLetClassD : $@convention(method) (@owned ClassWrapper.ClassWithLetClass) -> () {
+// %0                                             // users: %1, %3
+bb0(%0 : $ClassWrapper.ClassWithLetClass):
+  debug_value %0 : $ClassWrapper.ClassWithLetClass, let, name "self", argno 1 // id: %1
+  // function_ref Classes.ClassWrapper.ClassWithLetClass.deinit
+  %2 = function_ref @_TFCV7Classes12ClassWrapper17ClassWithLetClassd : $@convention(method) (@guaranteed ClassWrapper.ClassWithLetClass) -> @owned Builtin.NativeObject // user: %3
+  %3 = apply %2(%0) : $@convention(method) (@guaranteed ClassWrapper.ClassWithLetClass) -> @owned Builtin.NativeObject // user: %4
+  %4 = unchecked_ref_cast %3 : $Builtin.NativeObject to $ClassWrapper.ClassWithLetClass // user: %5
+  dealloc_ref %4 : $ClassWrapper.ClassWithLetClass // id: %5
+  %6 = tuple ()                                   // user: %7
+  return %6 : $()                                 // id: %7
+}
+
+// Classes.ClassWrapper.ClassWithLetClass.deinit
+sil hidden @_TFCV7Classes12ClassWrapper17ClassWithLetClassd : $@convention(method) (@guaranteed ClassWrapper.ClassWithLetClass) -> @owned Builtin.NativeObject {
+// %0                                             // users: %1, %2, %3
+bb0(%0 : $ClassWrapper.ClassWithLetClass):
+  debug_value %0 : $ClassWrapper.ClassWithLetClass, let, name "self", argno 1 // id: %1
+  %2 = unchecked_ref_cast %0 : $ClassWrapper.ClassWithLetClass to $Builtin.NativeObject // user: %5
+  %3 = ref_element_addr %0 : $ClassWrapper.ClassWithLetClass, #ClassWrapper.ClassWithLetClass.content // user: %4
+  destroy_addr %3 : $*ClassBox<Int>               // id: %4
+  return %2 : $Builtin.NativeObject               // id: %5
+}
+
+// Classes.ClassWrapper.ClassWithLetClass.content.getter : Classes.ClassBox<Swift.Int>
+sil hidden [transparent] @_TFCV7Classes12ClassWrapper17ClassWithLetClassg7contentGCS_8ClassBoxSi_ : $@convention(method) (@guaranteed ClassWrapper.ClassWithLetClass) -> @owned ClassBox<Int> {
+// %0                                             // users: %1, %2
+bb0(%0 : $ClassWrapper.ClassWithLetClass):
+  debug_value %0 : $ClassWrapper.ClassWithLetClass, let, name "self", argno 1 // id: %1
+  %2 = ref_element_addr %0 : $ClassWrapper.ClassWithLetClass, #ClassWrapper.ClassWithLetClass.content // user: %3
+  %3 = load %2 : $*ClassBox<Int>                  // users: %4, %5
+  strong_retain %3 : $ClassBox<Int>               // id: %4
+  return %3 : $ClassBox<Int>                      // id: %5
+}
+
+// Classes.ClassWrapper.ClassWithLetClass.init () -> Classes.ClassWrapper.ClassWithLetClass
+sil hidden @_TFCV7Classes12ClassWrapper17ClassWithLetClasscfT_S1_ : $@convention(method) (@owned ClassWrapper.ClassWithLetClass) -> @owned ClassWrapper.ClassWithLetClass {
+// %0                                             // users: %1, %9, %12
+bb0(%0 : $ClassWrapper.ClassWithLetClass):
+  debug_value %0 : $ClassWrapper.ClassWithLetClass, let, name "self" // id: %1
+  // function_ref Classes.ClassBox.__allocating_init (A) -> Classes.ClassBox<A>
+  %2 = function_ref @_TFC7Classes8ClassBoxCfxGS0_x_ : $@convention(thin) <τ_0_0> (@in τ_0_0, @thick ClassBox<τ_0_0>.Type) -> @owned ClassBox<τ_0_0> // user: %8
+  %3 = metatype $@thick ClassBox<Int>.Type        // user: %8
+  %4 = integer_literal $Builtin.Int64, 5          // user: %5
+  %5 = struct $Int (%4 : $Builtin.Int64)          // user: %7
+  %6 = alloc_stack $Int                           // users: %7, %8, %11
+  store %5 to %6 : $*Int                          // id: %7
+  %8 = apply %2<Int>(%6, %3) : $@convention(thin) <τ_0_0> (@in τ_0_0, @thick ClassBox<τ_0_0>.Type) -> @owned ClassBox<τ_0_0> // user: %10
+  %9 = ref_element_addr %0 : $ClassWrapper.ClassWithLetClass, #ClassWrapper.ClassWithLetClass.content // user: %10
+  store %8 to %9 : $*ClassBox<Int>                // id: %10
+  dealloc_stack %6 : $*Int                        // id: %11
+  return %0 : $ClassWrapper.ClassWithLetClass     // id: %12
+}
+
+// Classes.ClassWrapper.ClassWithLetClass.__allocating_init () -> Classes.ClassWrapper.ClassWithLetClass
+sil hidden @_TFCV7Classes12ClassWrapper17ClassWithLetClassCfT_S1_ : $@convention(thin) (@thick ClassWrapper.ClassWithLetClass.Type) -> @owned ClassWrapper.ClassWithLetClass {
+bb0(%0 : $@thick ClassWrapper.ClassWithLetClass.Type):
+  %1 = alloc_ref $ClassWrapper.ClassWithLetClass  // user: %3
+  // function_ref Classes.ClassWrapper.ClassWithLetClass.init () -> Classes.ClassWrapper.ClassWithLetClass
+  %2 = function_ref @_TFCV7Classes12ClassWrapper17ClassWithLetClasscfT_S1_ : $@convention(method) (@owned ClassWrapper.ClassWithLetClass) -> @owned ClassWrapper.ClassWithLetClass // user: %3
+  %3 = apply %2(%1) : $@convention(method) (@owned ClassWrapper.ClassWithLetClass) -> @owned ClassWrapper.ClassWithLetClass // user: %4
+  return %3 : $ClassWrapper.ClassWithLetClass     // id: %4
+}
+
+// Classes.ClassWrapper.ClassWithVarClass.__deallocating_deinit
+sil hidden @_TFCV7Classes12ClassWrapper17ClassWithVarClassD : $@convention(method) (@owned ClassWrapper.ClassWithVarClass) -> () {
+// %0                                             // users: %1, %3
+bb0(%0 : $ClassWrapper.ClassWithVarClass):
+  debug_value %0 : $ClassWrapper.ClassWithVarClass, let, name "self", argno 1 // id: %1
+  // function_ref Classes.ClassWrapper.ClassWithVarClass.deinit
+  %2 = function_ref @_TFCV7Classes12ClassWrapper17ClassWithVarClassd : $@convention(method) (@guaranteed ClassWrapper.ClassWithVarClass) -> @owned Builtin.NativeObject // user: %3
+  %3 = apply %2(%0) : $@convention(method) (@guaranteed ClassWrapper.ClassWithVarClass) -> @owned Builtin.NativeObject // user: %4
+  %4 = unchecked_ref_cast %3 : $Builtin.NativeObject to $ClassWrapper.ClassWithVarClass // user: %5
+  dealloc_ref %4 : $ClassWrapper.ClassWithVarClass // id: %5
+  %6 = tuple ()                                   // user: %7
+  return %6 : $()                                 // id: %7
+}
+
+// Classes.ClassWrapper.ClassWithVarClass.deinit
+sil hidden @_TFCV7Classes12ClassWrapper17ClassWithVarClassd : $@convention(method) (@guaranteed ClassWrapper.ClassWithVarClass) -> @owned Builtin.NativeObject {
+// %0                                             // users: %1, %2, %3
+bb0(%0 : $ClassWrapper.ClassWithVarClass):
+  debug_value %0 : $ClassWrapper.ClassWithVarClass, let, name "self", argno 1 // id: %1
+  %2 = unchecked_ref_cast %0 : $ClassWrapper.ClassWithVarClass to $Builtin.NativeObject // user: %5
+  %3 = ref_element_addr %0 : $ClassWrapper.ClassWithVarClass, #ClassWrapper.ClassWithVarClass.content // user: %4
+  destroy_addr %3 : $*ClassBox<Int>               // id: %4
+  return %2 : $Builtin.NativeObject               // id: %5
+}
+
+// Classes.ClassWrapper.ClassWithVarClass.content.getter : Classes.ClassBox<Swift.Int>
+sil hidden [transparent] @_TFCV7Classes12ClassWrapper17ClassWithVarClassg7contentGCS_8ClassBoxSi_ : $@convention(method) (@guaranteed ClassWrapper.ClassWithVarClass) -> @owned ClassBox<Int> {
+// %0                                             // users: %1, %2
+bb0(%0 : $ClassWrapper.ClassWithVarClass):
+  debug_value %0 : $ClassWrapper.ClassWithVarClass, let, name "self", argno 1 // id: %1
+  %2 = ref_element_addr %0 : $ClassWrapper.ClassWithVarClass, #ClassWrapper.ClassWithVarClass.content // user: %3
+  %3 = load %2 : $*ClassBox<Int>                  // users: %4, %5
+  strong_retain %3 : $ClassBox<Int>               // id: %4
+  return %3 : $ClassBox<Int>                      // id: %5
+}
+
+// Classes.ClassWrapper.ClassWithVarClass.content.setter : Classes.ClassBox<Swift.Int>
+sil hidden [transparent] @_TFCV7Classes12ClassWrapper17ClassWithVarClasss7contentGCS_8ClassBoxSi_ : $@convention(method) (@owned ClassBox<Int>, @guaranteed ClassWrapper.ClassWithVarClass) -> () {
+// %0                                             // users: %2, %4, %7, %9
+// %1                                             // users: %3, %5
+bb0(%0 : $ClassBox<Int>, %1 : $ClassWrapper.ClassWithVarClass):
+  debug_value %0 : $ClassBox<Int>, let, name "value", argno 1 // id: %2
+  debug_value %1 : $ClassWrapper.ClassWithVarClass, let, name "self", argno 2 // id: %3
+  strong_retain %0 : $ClassBox<Int>               // id: %4
+  %5 = ref_element_addr %1 : $ClassWrapper.ClassWithVarClass, #ClassWrapper.ClassWithVarClass.content // users: %6, %7
+  %6 = load %5 : $*ClassBox<Int>                  // user: %8
+  store %0 to %5 : $*ClassBox<Int>                // id: %7
+  strong_release %6 : $ClassBox<Int>              // id: %8
+  strong_release %0 : $ClassBox<Int>              // id: %9
+  %10 = tuple ()                                  // user: %11
+  return %10 : $()                                // id: %11
+}
+
+// Classes.ClassWrapper.ClassWithVarClass.content.materializeForSet : Classes.ClassBox<Swift.Int>
+sil hidden [transparent] @_TFCV7Classes12ClassWrapper17ClassWithVarClassm7contentGCS_8ClassBoxSi_ : $@convention(method) (Builtin.RawPointer, @inout Builtin.UnsafeValueBuffer, @guaranteed ClassWrapper.ClassWithVarClass) -> (Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper.ClassWithVarClass, @thick ClassWrapper.ClassWithVarClass.Type) -> ()>) {
+// %2                                             // user: %3
+bb0(%0 : $Builtin.RawPointer, %1 : $*Builtin.UnsafeValueBuffer, %2 : $ClassWrapper.ClassWithVarClass):
+  %3 = ref_element_addr %2 : $ClassWrapper.ClassWithVarClass, #ClassWrapper.ClassWithVarClass.content // user: %4
+  %4 = address_to_pointer %3 : $*ClassBox<Int> to $Builtin.RawPointer // user: %6
+  %5 = enum $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper.ClassWithVarClass, @thick ClassWrapper.ClassWithVarClass.Type) -> ()>, #Optional.None!enumelt // user: %6
+  %6 = tuple (%4 : $Builtin.RawPointer, %5 : $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper.ClassWithVarClass, @thick ClassWrapper.ClassWithVarClass.Type) -> ()>) // user: %7
+  return %6 : $(Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper.ClassWithVarClass, @thick ClassWrapper.ClassWithVarClass.Type) -> ()>) // id: %7
+}
+
+// Classes.ClassWrapper.ClassWithVarClass.init () -> Classes.ClassWrapper.ClassWithVarClass
+sil hidden @_TFCV7Classes12ClassWrapper17ClassWithVarClasscfT_S1_ : $@convention(method) (@owned ClassWrapper.ClassWithVarClass) -> @owned ClassWrapper.ClassWithVarClass {
+// %0                                             // users: %1, %9, %12
+bb0(%0 : $ClassWrapper.ClassWithVarClass):
+  debug_value %0 : $ClassWrapper.ClassWithVarClass, let, name "self" // id: %1
+  // function_ref Classes.ClassBox.__allocating_init (A) -> Classes.ClassBox<A>
+  %2 = function_ref @_TFC7Classes8ClassBoxCfxGS0_x_ : $@convention(thin) <τ_0_0> (@in τ_0_0, @thick ClassBox<τ_0_0>.Type) -> @owned ClassBox<τ_0_0> // user: %8
+  %3 = metatype $@thick ClassBox<Int>.Type        // user: %8
+  %4 = integer_literal $Builtin.Int64, 5          // user: %5
+  %5 = struct $Int (%4 : $Builtin.Int64)          // user: %7
+  %6 = alloc_stack $Int                           // users: %7, %8, %11
+  store %5 to %6 : $*Int                          // id: %7
+  %8 = apply %2<Int>(%6, %3) : $@convention(thin) <τ_0_0> (@in τ_0_0, @thick ClassBox<τ_0_0>.Type) -> @owned ClassBox<τ_0_0> // user: %10
+  %9 = ref_element_addr %0 : $ClassWrapper.ClassWithVarClass, #ClassWrapper.ClassWithVarClass.content // user: %10
+  store %8 to %9 : $*ClassBox<Int>                // id: %10
+  dealloc_stack %6 : $*Int                        // id: %11
+  return %0 : $ClassWrapper.ClassWithVarClass     // id: %12
+}
+
+// Classes.ClassWrapper.ClassWithVarClass.__allocating_init () -> Classes.ClassWrapper.ClassWithVarClass
+sil hidden @_TFCV7Classes12ClassWrapper17ClassWithVarClassCfT_S1_ : $@convention(thin) (@thick ClassWrapper.ClassWithVarClass.Type) -> @owned ClassWrapper.ClassWithVarClass {
+bb0(%0 : $@thick ClassWrapper.ClassWithVarClass.Type):
+  %1 = alloc_ref $ClassWrapper.ClassWithVarClass  // user: %3
+  // function_ref Classes.ClassWrapper.ClassWithVarClass.init () -> Classes.ClassWrapper.ClassWithVarClass
+  %2 = function_ref @_TFCV7Classes12ClassWrapper17ClassWithVarClasscfT_S1_ : $@convention(method) (@owned ClassWrapper.ClassWithVarClass) -> @owned ClassWrapper.ClassWithVarClass // user: %3
+  %3 = apply %2(%1) : $@convention(method) (@owned ClassWrapper.ClassWithVarClass) -> @owned ClassWrapper.ClassWithVarClass // user: %4
+  return %3 : $ClassWrapper.ClassWithVarClass     // id: %4
+}
+
+// Classes.ClassWrapper.init () -> Classes.ClassWrapper
+sil hidden @_TFV7Classes12ClassWrapperCfT_S0_ : $@convention(thin) (@thin ClassWrapper.Type) -> @owned ClassWrapper {
+bb0(%0 : $@thin ClassWrapper.Type):
+  %1 = alloc_stack $ClassWrapper, var, name "self", argno 1 // users: %5, %10, %15, %20, %25, %30, %35, %40, %46
+  // function_ref Classes.ClassWrapper.ClassWithLetStruct.__allocating_init () -> Classes.ClassWrapper.ClassWithLetStruct
+  %2 = function_ref @_TFCV7Classes12ClassWrapper18ClassWithLetStructCfT_S1_ : $@convention(thin) (@thick ClassWrapper.ClassWithLetStruct.Type) -> @owned ClassWrapper.ClassWithLetStruct // user: %4
+  %3 = metatype $@thick ClassWrapper.ClassWithLetStruct.Type // user: %4
+  %4 = apply %2(%3) : $@convention(thin) (@thick ClassWrapper.ClassWithLetStruct.Type) -> @owned ClassWrapper.ClassWithLetStruct // users: %6, %42, %44
+  %5 = struct_element_addr %1 : $*ClassWrapper, #ClassWrapper.l1 // user: %6
+  store %4 to %5 : $*ClassWrapper.ClassWithLetStruct // id: %6
+  // function_ref Classes.ClassWrapper.ClassWithVarStruct.__allocating_init () -> Classes.ClassWrapper.ClassWithVarStruct
+  %7 = function_ref @_TFCV7Classes12ClassWrapper18ClassWithVarStructCfT_S1_ : $@convention(thin) (@thick ClassWrapper.ClassWithVarStruct.Type) -> @owned ClassWrapper.ClassWithVarStruct // user: %9
+  %8 = metatype $@thick ClassWrapper.ClassWithVarStruct.Type // user: %9
+  %9 = apply %7(%8) : $@convention(thin) (@thick ClassWrapper.ClassWithVarStruct.Type) -> @owned ClassWrapper.ClassWithVarStruct // users: %11, %42, %44
+  %10 = struct_element_addr %1 : $*ClassWrapper, #ClassWrapper.l2 // user: %11
+  store %9 to %10 : $*ClassWrapper.ClassWithVarStruct // id: %11
+  // function_ref Classes.ClassWrapper.ClassWithLetClass.__allocating_init () -> Classes.ClassWrapper.ClassWithLetClass
+  %12 = function_ref @_TFCV7Classes12ClassWrapper17ClassWithLetClassCfT_S1_ : $@convention(thin) (@thick ClassWrapper.ClassWithLetClass.Type) -> @owned ClassWrapper.ClassWithLetClass // user: %14
+  %13 = metatype $@thick ClassWrapper.ClassWithLetClass.Type // user: %14
+  %14 = apply %12(%13) : $@convention(thin) (@thick ClassWrapper.ClassWithLetClass.Type) -> @owned ClassWrapper.ClassWithLetClass // users: %16, %42, %44
+  %15 = struct_element_addr %1 : $*ClassWrapper, #ClassWrapper.l3 // user: %16
+  store %14 to %15 : $*ClassWrapper.ClassWithLetClass // id: %16
+  // function_ref Classes.ClassWrapper.ClassWithVarClass.__allocating_init () -> Classes.ClassWrapper.ClassWithVarClass
+  %17 = function_ref @_TFCV7Classes12ClassWrapper17ClassWithVarClassCfT_S1_ : $@convention(thin) (@thick ClassWrapper.ClassWithVarClass.Type) -> @owned ClassWrapper.ClassWithVarClass // user: %19
+  %18 = metatype $@thick ClassWrapper.ClassWithVarClass.Type // user: %19
+  %19 = apply %17(%18) : $@convention(thin) (@thick ClassWrapper.ClassWithVarClass.Type) -> @owned ClassWrapper.ClassWithVarClass // users: %21, %42, %44
+  %20 = struct_element_addr %1 : $*ClassWrapper, #ClassWrapper.l4 // user: %21
+  store %19 to %20 : $*ClassWrapper.ClassWithVarClass // id: %21
+  // function_ref Classes.ClassWrapper.ClassWithLetStruct.__allocating_init () -> Classes.ClassWrapper.ClassWithLetStruct
+  %22 = function_ref @_TFCV7Classes12ClassWrapper18ClassWithLetStructCfT_S1_ : $@convention(thin) (@thick ClassWrapper.ClassWithLetStruct.Type) -> @owned ClassWrapper.ClassWithLetStruct // user: %24
+  %23 = metatype $@thick ClassWrapper.ClassWithLetStruct.Type // user: %24
+  %24 = apply %22(%23) : $@convention(thin) (@thick ClassWrapper.ClassWithLetStruct.Type) -> @owned ClassWrapper.ClassWithLetStruct // users: %26, %42, %44
+  %25 = struct_element_addr %1 : $*ClassWrapper, #ClassWrapper.v1 // user: %26
+  store %24 to %25 : $*ClassWrapper.ClassWithLetStruct // id: %26
+  // function_ref Classes.ClassWrapper.ClassWithVarStruct.__allocating_init () -> Classes.ClassWrapper.ClassWithVarStruct
+  %27 = function_ref @_TFCV7Classes12ClassWrapper18ClassWithVarStructCfT_S1_ : $@convention(thin) (@thick ClassWrapper.ClassWithVarStruct.Type) -> @owned ClassWrapper.ClassWithVarStruct // user: %29
+  %28 = metatype $@thick ClassWrapper.ClassWithVarStruct.Type // user: %29
+  %29 = apply %27(%28) : $@convention(thin) (@thick ClassWrapper.ClassWithVarStruct.Type) -> @owned ClassWrapper.ClassWithVarStruct // users: %31, %42, %44
+  %30 = struct_element_addr %1 : $*ClassWrapper, #ClassWrapper.v2 // user: %31
+  store %29 to %30 : $*ClassWrapper.ClassWithVarStruct // id: %31
+  // function_ref Classes.ClassWrapper.ClassWithLetClass.__allocating_init () -> Classes.ClassWrapper.ClassWithLetClass
+  %32 = function_ref @_TFCV7Classes12ClassWrapper17ClassWithLetClassCfT_S1_ : $@convention(thin) (@thick ClassWrapper.ClassWithLetClass.Type) -> @owned ClassWrapper.ClassWithLetClass // user: %34
+  %33 = metatype $@thick ClassWrapper.ClassWithLetClass.Type // user: %34
+  %34 = apply %32(%33) : $@convention(thin) (@thick ClassWrapper.ClassWithLetClass.Type) -> @owned ClassWrapper.ClassWithLetClass // users: %36, %42, %44
+  %35 = struct_element_addr %1 : $*ClassWrapper, #ClassWrapper.v3 // user: %36
+  store %34 to %35 : $*ClassWrapper.ClassWithLetClass // id: %36
+  // function_ref Classes.ClassWrapper.ClassWithVarClass.__allocating_init () -> Classes.ClassWrapper.ClassWithVarClass
+  %37 = function_ref @_TFCV7Classes12ClassWrapper17ClassWithVarClassCfT_S1_ : $@convention(thin) (@thick ClassWrapper.ClassWithVarClass.Type) -> @owned ClassWrapper.ClassWithVarClass // user: %39
+  %38 = metatype $@thick ClassWrapper.ClassWithVarClass.Type // user: %39
+  %39 = apply %37(%38) : $@convention(thin) (@thick ClassWrapper.ClassWithVarClass.Type) -> @owned ClassWrapper.ClassWithVarClass // users: %41, %42, %44
+  %40 = struct_element_addr %1 : $*ClassWrapper, #ClassWrapper.v4 // user: %41
+  store %39 to %40 : $*ClassWrapper.ClassWithVarClass // id: %41
+  %42 = struct $ClassWrapper (%4 : $ClassWrapper.ClassWithLetStruct, %9 : $ClassWrapper.ClassWithVarStruct, %14 : $ClassWrapper.ClassWithLetClass, %19 : $ClassWrapper.ClassWithVarClass, %24 : $ClassWrapper.ClassWithLetStruct, %29 : $ClassWrapper.ClassWithVarStruct, %34 : $ClassWrapper.ClassWithLetClass, %39 : $ClassWrapper.ClassWithVarClass) // users: %43, %47
+  retain_value %42 : $ClassWrapper                // id: %43
+  %44 = struct $ClassWrapper (%4 : $ClassWrapper.ClassWithLetStruct, %9 : $ClassWrapper.ClassWithVarStruct, %14 : $ClassWrapper.ClassWithLetClass, %19 : $ClassWrapper.ClassWithVarClass, %24 : $ClassWrapper.ClassWithLetStruct, %29 : $ClassWrapper.ClassWithVarStruct, %34 : $ClassWrapper.ClassWithLetClass, %39 : $ClassWrapper.ClassWithVarClass) // user: %45
+  release_value %44 : $ClassWrapper               // id: %45
+  dealloc_stack %1 : $*ClassWrapper               // id: %46
+  return %42 : $ClassWrapper                      // id: %47
+}
+
+// Classes.ClassWrapper.l1.getter : Classes.ClassWrapper.ClassWithLetStruct
+sil hidden [transparent] @_TFV7Classes12ClassWrapperg2l1CS0_18ClassWithLetStruct : $@convention(method) (@guaranteed ClassWrapper) -> @owned ClassWrapper.ClassWithLetStruct {
+// %0                                             // users: %1, %2
+bb0(%0 : $ClassWrapper):
+  debug_value %0 : $ClassWrapper, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $ClassWrapper, #ClassWrapper.l1 // users: %3, %4
+  strong_retain %2 : $ClassWrapper.ClassWithLetStruct // id: %3
+  return %2 : $ClassWrapper.ClassWithLetStruct    // id: %4
+}
+
+// Classes.ClassWrapper.l2.getter : Classes.ClassWrapper.ClassWithVarStruct
+sil hidden [transparent] @_TFV7Classes12ClassWrapperg2l2CS0_18ClassWithVarStruct : $@convention(method) (@guaranteed ClassWrapper) -> @owned ClassWrapper.ClassWithVarStruct {
+// %0                                             // users: %1, %2
+bb0(%0 : $ClassWrapper):
+  debug_value %0 : $ClassWrapper, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $ClassWrapper, #ClassWrapper.l2 // users: %3, %4
+  strong_retain %2 : $ClassWrapper.ClassWithVarStruct // id: %3
+  return %2 : $ClassWrapper.ClassWithVarStruct    // id: %4
+}
+
+// Classes.ClassWrapper.l3.getter : Classes.ClassWrapper.ClassWithLetClass
+sil hidden [transparent] @_TFV7Classes12ClassWrapperg2l3CS0_17ClassWithLetClass : $@convention(method) (@guaranteed ClassWrapper) -> @owned ClassWrapper.ClassWithLetClass {
+// %0                                             // users: %1, %2
+bb0(%0 : $ClassWrapper):
+  debug_value %0 : $ClassWrapper, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $ClassWrapper, #ClassWrapper.l3 // users: %3, %4
+  strong_retain %2 : $ClassWrapper.ClassWithLetClass // id: %3
+  return %2 : $ClassWrapper.ClassWithLetClass     // id: %4
+}
+
+// Classes.ClassWrapper.l4.getter : Classes.ClassWrapper.ClassWithVarClass
+sil hidden [transparent] @_TFV7Classes12ClassWrapperg2l4CS0_17ClassWithVarClass : $@convention(method) (@guaranteed ClassWrapper) -> @owned ClassWrapper.ClassWithVarClass {
+// %0                                             // users: %1, %2
+bb0(%0 : $ClassWrapper):
+  debug_value %0 : $ClassWrapper, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $ClassWrapper, #ClassWrapper.l4 // users: %3, %4
+  strong_retain %2 : $ClassWrapper.ClassWithVarClass // id: %3
+  return %2 : $ClassWrapper.ClassWithVarClass     // id: %4
+}
+
+// Classes.ClassWrapper.v1.getter : Classes.ClassWrapper.ClassWithLetStruct
+sil hidden [transparent] @_TFV7Classes12ClassWrapperg2v1CS0_18ClassWithLetStruct : $@convention(method) (@guaranteed ClassWrapper) -> @owned ClassWrapper.ClassWithLetStruct {
+// %0                                             // users: %1, %2
+bb0(%0 : $ClassWrapper):
+  debug_value %0 : $ClassWrapper, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $ClassWrapper, #ClassWrapper.v1 // users: %3, %4
+  strong_retain %2 : $ClassWrapper.ClassWithLetStruct // id: %3
+  return %2 : $ClassWrapper.ClassWithLetStruct    // id: %4
+}
+
+// Classes.ClassWrapper.v1.setter : Classes.ClassWrapper.ClassWithLetStruct
+sil hidden [transparent] @_TFV7Classes12ClassWrappers2v1CS0_18ClassWithLetStruct : $@convention(method) (@owned ClassWrapper.ClassWithLetStruct, @inout ClassWrapper) -> () {
+// %0                                             // users: %3, %4, %7, %9
+// %1                                             // users: %2, %5
+bb0(%0 : $ClassWrapper.ClassWithLetStruct, %1 : $*ClassWrapper):
+  debug_value_addr %1 : $*ClassWrapper, var, name "self", argno 2 // id: %2
+  debug_value %0 : $ClassWrapper.ClassWithLetStruct, let, name "value", argno 1 // id: %3
+  strong_retain %0 : $ClassWrapper.ClassWithLetStruct // id: %4
+  %5 = struct_element_addr %1 : $*ClassWrapper, #ClassWrapper.v1 // users: %6, %7
+  %6 = load %5 : $*ClassWrapper.ClassWithLetStruct // user: %8
+  store %0 to %5 : $*ClassWrapper.ClassWithLetStruct // id: %7
+  strong_release %6 : $ClassWrapper.ClassWithLetStruct // id: %8
+  strong_release %0 : $ClassWrapper.ClassWithLetStruct // id: %9
+  %10 = tuple ()                                  // user: %11
+  return %10 : $()                                // id: %11
+}
+
+// Classes.ClassWrapper.v1.materializeForSet : Classes.ClassWrapper.ClassWithLetStruct
+sil hidden [transparent] @_TFV7Classes12ClassWrapperm2v1CS0_18ClassWithLetStruct : $@convention(method) (Builtin.RawPointer, @inout Builtin.UnsafeValueBuffer, @inout ClassWrapper) -> (Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper, @thick ClassWrapper.Type) -> ()>) {
+// %2                                             // user: %3
+bb0(%0 : $Builtin.RawPointer, %1 : $*Builtin.UnsafeValueBuffer, %2 : $*ClassWrapper):
+  %3 = struct_element_addr %2 : $*ClassWrapper, #ClassWrapper.v1 // user: %4
+  %4 = address_to_pointer %3 : $*ClassWrapper.ClassWithLetStruct to $Builtin.RawPointer // user: %6
+  %5 = enum $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper, @thick ClassWrapper.Type) -> ()>, #Optional.None!enumelt // user: %6
+  %6 = tuple (%4 : $Builtin.RawPointer, %5 : $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper, @thick ClassWrapper.Type) -> ()>) // user: %7
+  return %6 : $(Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper, @thick ClassWrapper.Type) -> ()>) // id: %7
+}
+
+// Classes.ClassWrapper.v2.getter : Classes.ClassWrapper.ClassWithVarStruct
+sil hidden [transparent] @_TFV7Classes12ClassWrapperg2v2CS0_18ClassWithVarStruct : $@convention(method) (@guaranteed ClassWrapper) -> @owned ClassWrapper.ClassWithVarStruct {
+// %0                                             // users: %1, %2
+bb0(%0 : $ClassWrapper):
+  debug_value %0 : $ClassWrapper, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $ClassWrapper, #ClassWrapper.v2 // users: %3, %4
+  strong_retain %2 : $ClassWrapper.ClassWithVarStruct // id: %3
+  return %2 : $ClassWrapper.ClassWithVarStruct    // id: %4
+}
+
+// Classes.ClassWrapper.v2.setter : Classes.ClassWrapper.ClassWithVarStruct
+sil hidden [transparent] @_TFV7Classes12ClassWrappers2v2CS0_18ClassWithVarStruct : $@convention(method) (@owned ClassWrapper.ClassWithVarStruct, @inout ClassWrapper) -> () {
+// %0                                             // users: %3, %4, %7, %9
+// %1                                             // users: %2, %5
+bb0(%0 : $ClassWrapper.ClassWithVarStruct, %1 : $*ClassWrapper):
+  debug_value_addr %1 : $*ClassWrapper, var, name "self", argno 2 // id: %2
+  debug_value %0 : $ClassWrapper.ClassWithVarStruct, let, name "value", argno 1 // id: %3
+  strong_retain %0 : $ClassWrapper.ClassWithVarStruct // id: %4
+  %5 = struct_element_addr %1 : $*ClassWrapper, #ClassWrapper.v2 // users: %6, %7
+  %6 = load %5 : $*ClassWrapper.ClassWithVarStruct // user: %8
+  store %0 to %5 : $*ClassWrapper.ClassWithVarStruct // id: %7
+  strong_release %6 : $ClassWrapper.ClassWithVarStruct // id: %8
+  strong_release %0 : $ClassWrapper.ClassWithVarStruct // id: %9
+  %10 = tuple ()                                  // user: %11
+  return %10 : $()                                // id: %11
+}
+
+// Classes.ClassWrapper.v2.materializeForSet : Classes.ClassWrapper.ClassWithVarStruct
+sil hidden [transparent] @_TFV7Classes12ClassWrapperm2v2CS0_18ClassWithVarStruct : $@convention(method) (Builtin.RawPointer, @inout Builtin.UnsafeValueBuffer, @inout ClassWrapper) -> (Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper, @thick ClassWrapper.Type) -> ()>) {
+// %2                                             // user: %3
+bb0(%0 : $Builtin.RawPointer, %1 : $*Builtin.UnsafeValueBuffer, %2 : $*ClassWrapper):
+  %3 = struct_element_addr %2 : $*ClassWrapper, #ClassWrapper.v2 // user: %4
+  %4 = address_to_pointer %3 : $*ClassWrapper.ClassWithVarStruct to $Builtin.RawPointer // user: %6
+  %5 = enum $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper, @thick ClassWrapper.Type) -> ()>, #Optional.None!enumelt // user: %6
+  %6 = tuple (%4 : $Builtin.RawPointer, %5 : $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper, @thick ClassWrapper.Type) -> ()>) // user: %7
+  return %6 : $(Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper, @thick ClassWrapper.Type) -> ()>) // id: %7
+}
+
+// Classes.ClassWrapper.v3.getter : Classes.ClassWrapper.ClassWithLetClass
+sil hidden [transparent] @_TFV7Classes12ClassWrapperg2v3CS0_17ClassWithLetClass : $@convention(method) (@guaranteed ClassWrapper) -> @owned ClassWrapper.ClassWithLetClass {
+// %0                                             // users: %1, %2
+bb0(%0 : $ClassWrapper):
+  debug_value %0 : $ClassWrapper, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $ClassWrapper, #ClassWrapper.v3 // users: %3, %4
+  strong_retain %2 : $ClassWrapper.ClassWithLetClass // id: %3
+  return %2 : $ClassWrapper.ClassWithLetClass     // id: %4
+}
+
+// Classes.ClassWrapper.v3.setter : Classes.ClassWrapper.ClassWithLetClass
+sil hidden [transparent] @_TFV7Classes12ClassWrappers2v3CS0_17ClassWithLetClass : $@convention(method) (@owned ClassWrapper.ClassWithLetClass, @inout ClassWrapper) -> () {
+// %0                                             // users: %3, %4, %7, %9
+// %1                                             // users: %2, %5
+bb0(%0 : $ClassWrapper.ClassWithLetClass, %1 : $*ClassWrapper):
+  debug_value_addr %1 : $*ClassWrapper, var, name "self", argno 2 // id: %2
+  debug_value %0 : $ClassWrapper.ClassWithLetClass, let, name "value", argno 1 // id: %3
+  strong_retain %0 : $ClassWrapper.ClassWithLetClass // id: %4
+  %5 = struct_element_addr %1 : $*ClassWrapper, #ClassWrapper.v3 // users: %6, %7
+  %6 = load %5 : $*ClassWrapper.ClassWithLetClass // user: %8
+  store %0 to %5 : $*ClassWrapper.ClassWithLetClass // id: %7
+  strong_release %6 : $ClassWrapper.ClassWithLetClass // id: %8
+  strong_release %0 : $ClassWrapper.ClassWithLetClass // id: %9
+  %10 = tuple ()                                  // user: %11
+  return %10 : $()                                // id: %11
+}
+
+// Classes.ClassWrapper.v3.materializeForSet : Classes.ClassWrapper.ClassWithLetClass
+sil hidden [transparent] @_TFV7Classes12ClassWrapperm2v3CS0_17ClassWithLetClass : $@convention(method) (Builtin.RawPointer, @inout Builtin.UnsafeValueBuffer, @inout ClassWrapper) -> (Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper, @thick ClassWrapper.Type) -> ()>) {
+// %2                                             // user: %3
+bb0(%0 : $Builtin.RawPointer, %1 : $*Builtin.UnsafeValueBuffer, %2 : $*ClassWrapper):
+  %3 = struct_element_addr %2 : $*ClassWrapper, #ClassWrapper.v3 // user: %4
+  %4 = address_to_pointer %3 : $*ClassWrapper.ClassWithLetClass to $Builtin.RawPointer // user: %6
+  %5 = enum $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper, @thick ClassWrapper.Type) -> ()>, #Optional.None!enumelt // user: %6
+  %6 = tuple (%4 : $Builtin.RawPointer, %5 : $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper, @thick ClassWrapper.Type) -> ()>) // user: %7
+  return %6 : $(Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper, @thick ClassWrapper.Type) -> ()>) // id: %7
+}
+
+// Classes.ClassWrapper.v4.getter : Classes.ClassWrapper.ClassWithVarClass
+sil hidden [transparent] @_TFV7Classes12ClassWrapperg2v4CS0_17ClassWithVarClass : $@convention(method) (@guaranteed ClassWrapper) -> @owned ClassWrapper.ClassWithVarClass {
+// %0                                             // users: %1, %2
+bb0(%0 : $ClassWrapper):
+  debug_value %0 : $ClassWrapper, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $ClassWrapper, #ClassWrapper.v4 // users: %3, %4
+  strong_retain %2 : $ClassWrapper.ClassWithVarClass // id: %3
+  return %2 : $ClassWrapper.ClassWithVarClass     // id: %4
+}
+
+// Classes.ClassWrapper.v4.setter : Classes.ClassWrapper.ClassWithVarClass
+sil hidden [transparent] @_TFV7Classes12ClassWrappers2v4CS0_17ClassWithVarClass : $@convention(method) (@owned ClassWrapper.ClassWithVarClass, @inout ClassWrapper) -> () {
+// %0                                             // users: %3, %4, %7, %9
+// %1                                             // users: %2, %5
+bb0(%0 : $ClassWrapper.ClassWithVarClass, %1 : $*ClassWrapper):
+  debug_value_addr %1 : $*ClassWrapper, var, name "self", argno 2 // id: %2
+  debug_value %0 : $ClassWrapper.ClassWithVarClass, let, name "value", argno 1 // id: %3
+  strong_retain %0 : $ClassWrapper.ClassWithVarClass // id: %4
+  %5 = struct_element_addr %1 : $*ClassWrapper, #ClassWrapper.v4 // users: %6, %7
+  %6 = load %5 : $*ClassWrapper.ClassWithVarClass // user: %8
+  store %0 to %5 : $*ClassWrapper.ClassWithVarClass // id: %7
+  strong_release %6 : $ClassWrapper.ClassWithVarClass // id: %8
+  strong_release %0 : $ClassWrapper.ClassWithVarClass // id: %9
+  %10 = tuple ()                                  // user: %11
+  return %10 : $()                                // id: %11
+}
+
+// Classes.ClassWrapper.v4.materializeForSet : Classes.ClassWrapper.ClassWithVarClass
+sil hidden [transparent] @_TFV7Classes12ClassWrapperm2v4CS0_17ClassWithVarClass : $@convention(method) (Builtin.RawPointer, @inout Builtin.UnsafeValueBuffer, @inout ClassWrapper) -> (Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper, @thick ClassWrapper.Type) -> ()>) {
+// %2                                             // user: %3
+bb0(%0 : $Builtin.RawPointer, %1 : $*Builtin.UnsafeValueBuffer, %2 : $*ClassWrapper):
+  %3 = struct_element_addr %2 : $*ClassWrapper, #ClassWrapper.v4 // user: %4
+  %4 = address_to_pointer %3 : $*ClassWrapper.ClassWithVarClass to $Builtin.RawPointer // user: %6
+  %5 = enum $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper, @thick ClassWrapper.Type) -> ()>, #Optional.None!enumelt // user: %6
+  %6 = tuple (%4 : $Builtin.RawPointer, %5 : $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper, @thick ClassWrapper.Type) -> ()>) // user: %7
+  return %6 : $(Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout ClassWrapper, @thick ClassWrapper.Type) -> ()>) // id: %7
+}
+
+// globalinit_33_1BDF70FFC18749BAB495A73B459ED2F0_func5
+sil private_external [fragile] @globalinit_33_1BDF70FFC18749BAB495A73B459ED2F0_func5 : $@convention(thin) () -> ()
+
+sil_vtable ClassBox {
+  #ClassBox.init!initializer.1: _TFC7Classes8ClassBoxcfxGS0_x_	// Classes.ClassBox.init (A) -> Classes.ClassBox<A>
+  #ClassBox.deinit!deallocator: _TFC7Classes8ClassBoxD	// Classes.ClassBox.__deallocating_deinit
+}
+
+sil_vtable ClassWithLetStruct {
+  #ClassWrapper.ClassWithLetStruct.deinit!deallocator: _TFCV7Classes12ClassWrapper18ClassWithLetStructD	// Classes.ClassWrapper.ClassWithLetStruct.__deallocating_deinit
+  #ClassWrapper.ClassWithLetStruct.init!initializer.1: _TFCV7Classes12ClassWrapper18ClassWithLetStructcfT_S1_	// Classes.ClassWrapper.ClassWithLetStruct.init () -> Classes.ClassWrapper.ClassWithLetStruct
+}
+
+sil_vtable ClassWithVarStruct {
+  #ClassWrapper.ClassWithVarStruct.deinit!deallocator: _TFCV7Classes12ClassWrapper18ClassWithVarStructD	// Classes.ClassWrapper.ClassWithVarStruct.__deallocating_deinit
+  #ClassWrapper.ClassWithVarStruct.content!getter.1: _TFCV7Classes12ClassWrapper18ClassWithVarStructg7contentSi	// Classes.ClassWrapper.ClassWithVarStruct.content.getter : Swift.Int
+  #ClassWrapper.ClassWithVarStruct.content!setter.1: _TFCV7Classes12ClassWrapper18ClassWithVarStructs7contentSi	// Classes.ClassWrapper.ClassWithVarStruct.content.setter : Swift.Int
+  #ClassWrapper.ClassWithVarStruct.content!materializeForSet.1: _TFCV7Classes12ClassWrapper18ClassWithVarStructm7contentSi	// Classes.ClassWrapper.ClassWithVarStruct.content.materializeForSet : Swift.Int
+  #ClassWrapper.ClassWithVarStruct.init!initializer.1: _TFCV7Classes12ClassWrapper18ClassWithVarStructcfT_S1_	// Classes.ClassWrapper.ClassWithVarStruct.init () -> Classes.ClassWrapper.ClassWithVarStruct
+}
+
+sil_vtable ClassWithLetClass {
+  #ClassWrapper.ClassWithLetClass.deinit!deallocator: _TFCV7Classes12ClassWrapper17ClassWithLetClassD	// Classes.ClassWrapper.ClassWithLetClass.__deallocating_deinit
+  #ClassWrapper.ClassWithLetClass.init!initializer.1: _TFCV7Classes12ClassWrapper17ClassWithLetClasscfT_S1_	// Classes.ClassWrapper.ClassWithLetClass.init () -> Classes.ClassWrapper.ClassWithLetClass
+}
+
+sil_vtable ClassWithVarClass {
+  #ClassWrapper.ClassWithVarClass.deinit!deallocator: _TFCV7Classes12ClassWrapper17ClassWithVarClassD	// Classes.ClassWrapper.ClassWithVarClass.__deallocating_deinit
+  #ClassWrapper.ClassWithVarClass.content!getter.1: _TFCV7Classes12ClassWrapper17ClassWithVarClassg7contentGCS_8ClassBoxSi_	// Classes.ClassWrapper.ClassWithVarClass.content.getter : Classes.ClassBox<Swift.Int>
+  #ClassWrapper.ClassWithVarClass.content!setter.1: _TFCV7Classes12ClassWrapper17ClassWithVarClasss7contentGCS_8ClassBoxSi_	// Classes.ClassWrapper.ClassWithVarClass.content.setter : Classes.ClassBox<Swift.Int>
+  #ClassWrapper.ClassWithVarClass.content!materializeForSet.1: _TFCV7Classes12ClassWrapper17ClassWithVarClassm7contentGCS_8ClassBoxSi_	// Classes.ClassWrapper.ClassWithVarClass.content.materializeForSet : Classes.ClassBox<Swift.Int>
+  #ClassWrapper.ClassWithVarClass.init!initializer.1: _TFCV7Classes12ClassWrapper17ClassWithVarClasscfT_S1_	// Classes.ClassWrapper.ClassWithVarClass.init () -> Classes.ClassWrapper.ClassWithVarClass
+}
+
+
+

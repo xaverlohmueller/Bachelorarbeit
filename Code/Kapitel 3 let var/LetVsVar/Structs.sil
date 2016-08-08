@@ -1,0 +1,543 @@
+sil_stage canonical
+
+import Builtin
+import Swift
+import SwiftShims
+
+// Structs.structWrapper : Structs.StructWrapper
+sil_global [let] @_Tv7Structs13structWrapperVS_13StructWrapper : $StructWrapper
+
+// static Swift.Process._argc : Swift.Int32
+sil_global [fragile] @_TZvOs7Process5_argcVs5Int32 : $Int32
+
+// globalinit_33_1BDF70FFC18749BAB495A73B459ED2F0_token5
+sil_global private_external [fragile] @globalinit_33_1BDF70FFC18749BAB495A73B459ED2F0_token5 : $Builtin.Word
+
+// static Swift.Process._unsafeArgv : Swift.UnsafeMutablePointer<Swift.UnsafeMutablePointer<Swift.Int8>>
+sil_global [fragile] @_TZvOs7Process11_unsafeArgvGSpGSpVs4Int8__ : $UnsafeMutablePointer<UnsafeMutablePointer<Int8>>
+
+// main
+sil @main : $@convention(c) (Int32, UnsafeMutablePointer<UnsafeMutablePointer<Int8>>) -> Int32 {
+// %0                                             // user: %3
+// %1                                             // user: %9
+bb0(%0 : $Int32, %1 : $UnsafeMutablePointer<UnsafeMutablePointer<Int8>>):
+  %2 = global_addr @_TZvOs7Process5_argcVs5Int32 : $*Int32 // user: %3
+  store %0 to %2 : $*Int32                        // id: %3
+  %4 = global_addr @globalinit_33_1BDF70FFC18749BAB495A73B459ED2F0_token5 : $*Builtin.Word // user: %5
+  %5 = address_to_pointer %4 : $*Builtin.Word to $Builtin.RawPointer // user: %7
+  // function_ref globalinit_33_1BDF70FFC18749BAB495A73B459ED2F0_func5
+  %6 = function_ref @globalinit_33_1BDF70FFC18749BAB495A73B459ED2F0_func5 : $@convention(thin) () -> () // user: %7
+  %7 = builtin "once"(%5 : $Builtin.RawPointer, %6 : $@convention(thin) () -> ()) : $()
+  %8 = global_addr @_TZvOs7Process11_unsafeArgvGSpGSpVs4Int8__ : $*UnsafeMutablePointer<UnsafeMutablePointer<Int8>> // user: %9
+  store %1 to %8 : $*UnsafeMutablePointer<UnsafeMutablePointer<Int8>> // id: %9
+  %10 = tuple ()
+  alloc_global @_Tv7Structs13structWrapperVS_13StructWrapper // id: %11
+  %12 = global_addr @_Tv7Structs13structWrapperVS_13StructWrapper : $*StructWrapper // user: %16
+  // function_ref Structs.StructWrapper.init () -> Structs.StructWrapper
+  %13 = function_ref @_TFV7Structs13StructWrapperCfT_S0_ : $@convention(thin) (@thin StructWrapper.Type) -> @owned StructWrapper // user: %15
+  %14 = metatype $@thin StructWrapper.Type        // user: %15
+  %15 = apply %13(%14) : $@convention(thin) (@thin StructWrapper.Type) -> @owned StructWrapper // user: %16
+  store %15 to %12 : $*StructWrapper              // id: %16
+  %17 = integer_literal $Builtin.Int32, 0         // user: %18
+  %18 = struct $Int32 (%17 : $Builtin.Int32)      // user: %19
+  return %18 : $Int32                             // id: %19
+}
+
+// Swift._didEnterMain (Swift.Int32, argv : Swift.UnsafeMutablePointer<Swift.UnsafeMutablePointer<Swift.Int8>>) -> ()
+sil [transparent] [fragile] @_TFs13_didEnterMainFTVs5Int324argvGSpGSpVs4Int8___T_ : $@convention(thin) (Int32, UnsafeMutablePointer<UnsafeMutablePointer<Int8>>) -> ()
+
+// Structs.StructBox.init (A) -> Structs.StructBox<A>
+sil hidden @_TFC7Structs9StructBoxcfxGS0_x_ : $@convention(method) <T> (@in T, @owned StructBox<T>) -> @owned StructBox<T> {
+// %0                                             // users: %2, %5, %9
+// %1                                             // users: %3, %6, %10
+bb0(%0 : $*T, %1 : $StructBox<T>):
+  debug_value_addr %0 : $*T, let, name "wrapped", argno 1 // id: %2
+  debug_value %1 : $StructBox<T>, let, name "self" // id: %3
+  %4 = alloc_stack $T                             // users: %5, %7, %8
+  copy_addr %0 to [initialization] %4 : $*T       // id: %5
+  %6 = ref_element_addr %1 : $StructBox<T>, #StructBox.wrapped // user: %7
+  copy_addr [take] %4 to [initialization] %6 : $*T // id: %7
+  dealloc_stack %4 : $*T                          // id: %8
+  destroy_addr %0 : $*T                           // id: %9
+  return %1 : $StructBox<T>                       // id: %10
+}
+
+// Structs.StructBox.__allocating_init (A) -> Structs.StructBox<A>
+sil hidden @_TFC7Structs9StructBoxCfxGS0_x_ : $@convention(thin) <T> (@in T, @thick StructBox<T>.Type) -> @owned StructBox<T> {
+// %0                                             // user: %4
+bb0(%0 : $*T, %1 : $@thick StructBox<T>.Type):
+  %2 = alloc_ref $StructBox<T>                    // user: %4
+  // function_ref Structs.StructBox.init (A) -> Structs.StructBox<A>
+  %3 = function_ref @_TFC7Structs9StructBoxcfxGS0_x_ : $@convention(method) <τ_0_0> (@in τ_0_0, @owned StructBox<τ_0_0>) -> @owned StructBox<τ_0_0> // user: %4
+  %4 = apply %3<T>(%0, %2) : $@convention(method) <τ_0_0> (@in τ_0_0, @owned StructBox<τ_0_0>) -> @owned StructBox<τ_0_0> // user: %5
+  return %4 : $StructBox<T>                       // id: %5
+}
+
+// Structs.StructBox.__deallocating_deinit
+sil hidden @_TFC7Structs9StructBoxD : $@convention(method) <T> (@owned StructBox<T>) -> () {
+// %0                                             // users: %1, %3
+bb0(%0 : $StructBox<T>):
+  debug_value %0 : $StructBox<T>, let, name "self", argno 1 // id: %1
+  // function_ref Structs.StructBox.deinit
+  %2 = function_ref @_TFC7Structs9StructBoxd : $@convention(method) <τ_0_0> (@guaranteed StructBox<τ_0_0>) -> @owned Builtin.NativeObject // user: %3
+  %3 = apply %2<T>(%0) : $@convention(method) <τ_0_0> (@guaranteed StructBox<τ_0_0>) -> @owned Builtin.NativeObject // user: %4
+  %4 = unchecked_ref_cast %3 : $Builtin.NativeObject to $StructBox<T> // user: %5
+  dealloc_ref %4 : $StructBox<T>                  // id: %5
+  %6 = tuple ()                                   // user: %7
+  return %6 : $()                                 // id: %7
+}
+
+// Structs.StructBox.deinit
+sil hidden @_TFC7Structs9StructBoxd : $@convention(method) <T> (@guaranteed StructBox<T>) -> @owned Builtin.NativeObject {
+// %0                                             // users: %1, %2, %3
+bb0(%0 : $StructBox<T>):
+  debug_value %0 : $StructBox<T>, let, name "self", argno 1 // id: %1
+  %2 = unchecked_ref_cast %0 : $StructBox<T> to $Builtin.NativeObject // user: %5
+  %3 = ref_element_addr %0 : $StructBox<T>, #StructBox.wrapped // user: %4
+  destroy_addr %3 : $*T                           // id: %4
+  return %2 : $Builtin.NativeObject               // id: %5
+}
+
+// Structs.StructBox.wrapped.getter : A
+sil hidden [transparent] @_TFC7Structs9StructBoxg7wrappedx : $@convention(method) <T> (@out T, @guaranteed StructBox<T>) -> () {
+// %0                                             // user: %4
+// %1                                             // users: %2, %3
+bb0(%0 : $*T, %1 : $StructBox<T>):
+  debug_value %1 : $StructBox<T>, let, name "self", argno 1 // id: %2
+  %3 = ref_element_addr %1 : $StructBox<T>, #StructBox.wrapped // user: %4
+  copy_addr %3 to [initialization] %0 : $*T       // id: %4
+  %5 = tuple ()                                   // user: %6
+  return %5 : $()                                 // id: %6
+}
+
+// Structs.StructWrapper.StructWithLetStruct.init () -> Structs.StructWrapper.StructWithLetStruct
+sil hidden @_TFVV7Structs13StructWrapper19StructWithLetStructCfT_S1_ : $@convention(thin) (@thin StructWrapper.StructWithLetStruct.Type) -> StructWrapper.StructWithLetStruct {
+bb0(%0 : $@thin StructWrapper.StructWithLetStruct.Type):
+  %1 = alloc_stack $StructWrapper.StructWithLetStruct, var, name "self", argno 1 // users: %4, %7
+  %2 = integer_literal $Builtin.Int64, 5          // user: %3
+  %3 = struct $Int (%2 : $Builtin.Int64)          // users: %5, %6
+  %4 = struct_element_addr %1 : $*StructWrapper.StructWithLetStruct, #StructWrapper.StructWithLetStruct.content // user: %5
+  store %3 to %4 : $*Int                          // id: %5
+  %6 = struct $StructWrapper.StructWithLetStruct (%3 : $Int) // user: %8
+  dealloc_stack %1 : $*StructWrapper.StructWithLetStruct // id: %7
+  return %6 : $StructWrapper.StructWithLetStruct  // id: %8
+}
+
+// Swift.Int.init (_builtinIntegerLiteral : Builtin.Int2048) -> Swift.Int
+sil [transparent] [fragile] @_TFSiCfT22_builtinIntegerLiteralBi2048__Si : $@convention(thin) (Builtin.Int2048, @thin Int.Type) -> Int
+
+// Structs.StructWrapper.StructWithLetStruct.content.getter : Swift.Int
+sil hidden [transparent] @_TFVV7Structs13StructWrapper19StructWithLetStructg7contentSi : $@convention(method) (StructWrapper.StructWithLetStruct) -> Int {
+// %0                                             // users: %1, %2
+bb0(%0 : $StructWrapper.StructWithLetStruct):
+  debug_value %0 : $StructWrapper.StructWithLetStruct, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $StructWrapper.StructWithLetStruct, #StructWrapper.StructWithLetStruct.content // user: %3
+  return %2 : $Int                                // id: %3
+}
+
+// Structs.StructWrapper.StructWithVarStruct.content.getter : Swift.Int
+sil hidden [transparent] @_TFVV7Structs13StructWrapper19StructWithVarStructg7contentSi : $@convention(method) (StructWrapper.StructWithVarStruct) -> Int {
+// %0                                             // users: %1, %2
+bb0(%0 : $StructWrapper.StructWithVarStruct):
+  debug_value %0 : $StructWrapper.StructWithVarStruct, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $StructWrapper.StructWithVarStruct, #StructWrapper.StructWithVarStruct.content // user: %3
+  return %2 : $Int                                // id: %3
+}
+
+// Structs.StructWrapper.StructWithVarStruct.content.setter : Swift.Int
+sil hidden [transparent] @_TFVV7Structs13StructWrapper19StructWithVarStructs7contentSi : $@convention(method) (Int, @inout StructWrapper.StructWithVarStruct) -> () {
+// %0                                             // users: %3, %5
+// %1                                             // users: %2, %4
+bb0(%0 : $Int, %1 : $*StructWrapper.StructWithVarStruct):
+  debug_value_addr %1 : $*StructWrapper.StructWithVarStruct, var, name "self", argno 2 // id: %2
+  debug_value %0 : $Int, let, name "value", argno 1 // id: %3
+  %4 = struct_element_addr %1 : $*StructWrapper.StructWithVarStruct, #StructWrapper.StructWithVarStruct.content // user: %5
+  store %0 to %4 : $*Int                          // id: %5
+  %6 = tuple ()                                   // user: %7
+  return %6 : $()                                 // id: %7
+}
+
+// Structs.StructWrapper.StructWithVarStruct.content.materializeForSet : Swift.Int
+sil hidden [transparent] @_TFVV7Structs13StructWrapper19StructWithVarStructm7contentSi : $@convention(method) (Builtin.RawPointer, @inout Builtin.UnsafeValueBuffer, @inout StructWrapper.StructWithVarStruct) -> (Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper.StructWithVarStruct, @thick StructWrapper.StructWithVarStruct.Type) -> ()>) {
+// %2                                             // user: %3
+bb0(%0 : $Builtin.RawPointer, %1 : $*Builtin.UnsafeValueBuffer, %2 : $*StructWrapper.StructWithVarStruct):
+  %3 = struct_element_addr %2 : $*StructWrapper.StructWithVarStruct, #StructWrapper.StructWithVarStruct.content // user: %4
+  %4 = address_to_pointer %3 : $*Int to $Builtin.RawPointer // user: %6
+  %5 = enum $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper.StructWithVarStruct, @thick StructWrapper.StructWithVarStruct.Type) -> ()>, #Optional.None!enumelt // user: %6
+  %6 = tuple (%4 : $Builtin.RawPointer, %5 : $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper.StructWithVarStruct, @thick StructWrapper.StructWithVarStruct.Type) -> ()>) // user: %7
+  return %6 : $(Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper.StructWithVarStruct, @thick StructWrapper.StructWithVarStruct.Type) -> ()>) // id: %7
+}
+
+// Structs.StructWrapper.StructWithVarStruct.init (content : Swift.Int) -> Structs.StructWrapper.StructWithVarStruct
+sil hidden @_TFVV7Structs13StructWrapper19StructWithVarStructCfT7contentSi_S1_ : $@convention(thin) (Int, @thin StructWrapper.StructWithVarStruct.Type) -> StructWrapper.StructWithVarStruct {
+// %0                                             // user: %2
+bb0(%0 : $Int, %1 : $@thin StructWrapper.StructWithVarStruct.Type):
+  %2 = struct $StructWrapper.StructWithVarStruct (%0 : $Int) // user: %3
+  return %2 : $StructWrapper.StructWithVarStruct  // id: %3
+}
+
+// Structs.StructWrapper.StructWithVarStruct.init () -> Structs.StructWrapper.StructWithVarStruct
+sil hidden @_TFVV7Structs13StructWrapper19StructWithVarStructCfT_S1_ : $@convention(thin) (@thin StructWrapper.StructWithVarStruct.Type) -> StructWrapper.StructWithVarStruct {
+bb0(%0 : $@thin StructWrapper.StructWithVarStruct.Type):
+  %1 = alloc_stack $StructWrapper.StructWithVarStruct, var, name "self", argno 1 // users: %4, %7
+  %2 = integer_literal $Builtin.Int64, 5          // user: %3
+  %3 = struct $Int (%2 : $Builtin.Int64)          // users: %5, %6
+  %4 = struct_element_addr %1 : $*StructWrapper.StructWithVarStruct, #StructWrapper.StructWithVarStruct.content // user: %5
+  store %3 to %4 : $*Int                          // id: %5
+  %6 = struct $StructWrapper.StructWithVarStruct (%3 : $Int) // user: %8
+  dealloc_stack %1 : $*StructWrapper.StructWithVarStruct // id: %7
+  return %6 : $StructWrapper.StructWithVarStruct  // id: %8
+}
+
+// Structs.StructWrapper.StructWithLetClass.init () -> Structs.StructWrapper.StructWithLetClass
+sil hidden @_TFVV7Structs13StructWrapper18StructWithLetClassCfT_S1_ : $@convention(thin) (@thin StructWrapper.StructWithLetClass.Type) -> @owned StructWrapper.StructWithLetClass {
+bb0(%0 : $@thin StructWrapper.StructWithLetClass.Type):
+  %1 = alloc_stack $StructWrapper.StructWithLetClass, var, name "self", argno 1 // users: %9, %16
+  // function_ref Structs.StructBox.__allocating_init (A) -> Structs.StructBox<A>
+  %2 = function_ref @_TFC7Structs9StructBoxCfxGS0_x_ : $@convention(thin) <τ_0_0> (@in τ_0_0, @thick StructBox<τ_0_0>.Type) -> @owned StructBox<τ_0_0> // user: %8
+  %3 = metatype $@thick StructBox<Int>.Type       // user: %8
+  %4 = integer_literal $Builtin.Int64, 5          // user: %5
+  %5 = struct $Int (%4 : $Builtin.Int64)          // user: %7
+  %6 = alloc_stack $Int                           // users: %7, %8, %11
+  store %5 to %6 : $*Int                          // id: %7
+  %8 = apply %2<Int>(%6, %3) : $@convention(thin) <τ_0_0> (@in τ_0_0, @thick StructBox<τ_0_0>.Type) -> @owned StructBox<τ_0_0> // users: %10, %12, %14
+  %9 = struct_element_addr %1 : $*StructWrapper.StructWithLetClass, #StructWrapper.StructWithLetClass.content // user: %10
+  store %8 to %9 : $*StructBox<Int>               // id: %10
+  dealloc_stack %6 : $*Int                        // id: %11
+  %12 = struct $StructWrapper.StructWithLetClass (%8 : $StructBox<Int>) // users: %13, %17
+  retain_value %12 : $StructWrapper.StructWithLetClass // id: %13
+  %14 = struct $StructWrapper.StructWithLetClass (%8 : $StructBox<Int>) // user: %15
+  release_value %14 : $StructWrapper.StructWithLetClass // id: %15
+  dealloc_stack %1 : $*StructWrapper.StructWithLetClass // id: %16
+  return %12 : $StructWrapper.StructWithLetClass  // id: %17
+}
+
+// Structs.StructWrapper.StructWithLetClass.content.getter : Structs.StructBox<Swift.Int>
+sil hidden [transparent] @_TFVV7Structs13StructWrapper18StructWithLetClassg7contentGCS_9StructBoxSi_ : $@convention(method) (@guaranteed StructWrapper.StructWithLetClass) -> @owned StructBox<Int> {
+// %0                                             // users: %1, %2
+bb0(%0 : $StructWrapper.StructWithLetClass):
+  debug_value %0 : $StructWrapper.StructWithLetClass, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $StructWrapper.StructWithLetClass, #StructWrapper.StructWithLetClass.content // users: %3, %4
+  strong_retain %2 : $StructBox<Int>              // id: %3
+  return %2 : $StructBox<Int>                     // id: %4
+}
+
+// Structs.StructWrapper.StructWithVarClass.content.getter : Structs.StructBox<Swift.Int>
+sil hidden [transparent] @_TFVV7Structs13StructWrapper18StructWithVarClassg7contentGCS_9StructBoxSi_ : $@convention(method) (@guaranteed StructWrapper.StructWithVarClass) -> @owned StructBox<Int> {
+// %0                                             // users: %1, %2
+bb0(%0 : $StructWrapper.StructWithVarClass):
+  debug_value %0 : $StructWrapper.StructWithVarClass, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $StructWrapper.StructWithVarClass, #StructWrapper.StructWithVarClass.content // users: %3, %4
+  strong_retain %2 : $StructBox<Int>              // id: %3
+  return %2 : $StructBox<Int>                     // id: %4
+}
+
+// Structs.StructWrapper.StructWithVarClass.content.setter : Structs.StructBox<Swift.Int>
+sil hidden [transparent] @_TFVV7Structs13StructWrapper18StructWithVarClasss7contentGCS_9StructBoxSi_ : $@convention(method) (@owned StructBox<Int>, @inout StructWrapper.StructWithVarClass) -> () {
+// %0                                             // users: %3, %4, %7, %9
+// %1                                             // users: %2, %5
+bb0(%0 : $StructBox<Int>, %1 : $*StructWrapper.StructWithVarClass):
+  debug_value_addr %1 : $*StructWrapper.StructWithVarClass, var, name "self", argno 2 // id: %2
+  debug_value %0 : $StructBox<Int>, let, name "value", argno 1 // id: %3
+  strong_retain %0 : $StructBox<Int>              // id: %4
+  %5 = struct_element_addr %1 : $*StructWrapper.StructWithVarClass, #StructWrapper.StructWithVarClass.content // users: %6, %7
+  %6 = load %5 : $*StructBox<Int>                 // user: %8
+  store %0 to %5 : $*StructBox<Int>               // id: %7
+  strong_release %6 : $StructBox<Int>             // id: %8
+  strong_release %0 : $StructBox<Int>             // id: %9
+  %10 = tuple ()                                  // user: %11
+  return %10 : $()                                // id: %11
+}
+
+// Structs.StructWrapper.StructWithVarClass.content.materializeForSet : Structs.StructBox<Swift.Int>
+sil hidden [transparent] @_TFVV7Structs13StructWrapper18StructWithVarClassm7contentGCS_9StructBoxSi_ : $@convention(method) (Builtin.RawPointer, @inout Builtin.UnsafeValueBuffer, @inout StructWrapper.StructWithVarClass) -> (Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper.StructWithVarClass, @thick StructWrapper.StructWithVarClass.Type) -> ()>) {
+// %2                                             // user: %3
+bb0(%0 : $Builtin.RawPointer, %1 : $*Builtin.UnsafeValueBuffer, %2 : $*StructWrapper.StructWithVarClass):
+  %3 = struct_element_addr %2 : $*StructWrapper.StructWithVarClass, #StructWrapper.StructWithVarClass.content // user: %4
+  %4 = address_to_pointer %3 : $*StructBox<Int> to $Builtin.RawPointer // user: %6
+  %5 = enum $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper.StructWithVarClass, @thick StructWrapper.StructWithVarClass.Type) -> ()>, #Optional.None!enumelt // user: %6
+  %6 = tuple (%4 : $Builtin.RawPointer, %5 : $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper.StructWithVarClass, @thick StructWrapper.StructWithVarClass.Type) -> ()>) // user: %7
+  return %6 : $(Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper.StructWithVarClass, @thick StructWrapper.StructWithVarClass.Type) -> ()>) // id: %7
+}
+
+// Structs.StructWrapper.StructWithVarClass.init (content : Structs.StructBox<Swift.Int>) -> Structs.StructWrapper.StructWithVarClass
+sil hidden @_TFVV7Structs13StructWrapper18StructWithVarClassCfT7contentGCS_9StructBoxSi__S1_ : $@convention(thin) (@owned StructBox<Int>, @thin StructWrapper.StructWithVarClass.Type) -> @owned StructWrapper.StructWithVarClass {
+// %0                                             // user: %2
+bb0(%0 : $StructBox<Int>, %1 : $@thin StructWrapper.StructWithVarClass.Type):
+  %2 = struct $StructWrapper.StructWithVarClass (%0 : $StructBox<Int>) // user: %3
+  return %2 : $StructWrapper.StructWithVarClass   // id: %3
+}
+
+// Structs.StructWrapper.StructWithVarClass.init () -> Structs.StructWrapper.StructWithVarClass
+sil hidden @_TFVV7Structs13StructWrapper18StructWithVarClassCfT_S1_ : $@convention(thin) (@thin StructWrapper.StructWithVarClass.Type) -> @owned StructWrapper.StructWithVarClass {
+bb0(%0 : $@thin StructWrapper.StructWithVarClass.Type):
+  %1 = alloc_stack $StructWrapper.StructWithVarClass, var, name "self", argno 1 // users: %9, %16
+  // function_ref Structs.StructBox.__allocating_init (A) -> Structs.StructBox<A>
+  %2 = function_ref @_TFC7Structs9StructBoxCfxGS0_x_ : $@convention(thin) <τ_0_0> (@in τ_0_0, @thick StructBox<τ_0_0>.Type) -> @owned StructBox<τ_0_0> // user: %8
+  %3 = metatype $@thick StructBox<Int>.Type       // user: %8
+  %4 = integer_literal $Builtin.Int64, 5          // user: %5
+  %5 = struct $Int (%4 : $Builtin.Int64)          // user: %7
+  %6 = alloc_stack $Int                           // users: %7, %8, %11
+  store %5 to %6 : $*Int                          // id: %7
+  %8 = apply %2<Int>(%6, %3) : $@convention(thin) <τ_0_0> (@in τ_0_0, @thick StructBox<τ_0_0>.Type) -> @owned StructBox<τ_0_0> // users: %10, %12, %14
+  %9 = struct_element_addr %1 : $*StructWrapper.StructWithVarClass, #StructWrapper.StructWithVarClass.content // user: %10
+  store %8 to %9 : $*StructBox<Int>               // id: %10
+  dealloc_stack %6 : $*Int                        // id: %11
+  %12 = struct $StructWrapper.StructWithVarClass (%8 : $StructBox<Int>) // users: %13, %17
+  retain_value %12 : $StructWrapper.StructWithVarClass // id: %13
+  %14 = struct $StructWrapper.StructWithVarClass (%8 : $StructBox<Int>) // user: %15
+  release_value %14 : $StructWrapper.StructWithVarClass // id: %15
+  dealloc_stack %1 : $*StructWrapper.StructWithVarClass // id: %16
+  return %12 : $StructWrapper.StructWithVarClass  // id: %17
+}
+
+// Structs.StructWrapper.init () -> Structs.StructWrapper
+sil hidden @_TFV7Structs13StructWrapperCfT_S0_ : $@convention(thin) (@thin StructWrapper.Type) -> @owned StructWrapper {
+bb0(%0 : $@thin StructWrapper.Type):
+  %1 = alloc_stack $StructWrapper, var, name "self", argno 1 // users: %5, %10, %15, %20, %25, %30, %35, %40, %46
+  // function_ref Structs.StructWrapper.StructWithLetStruct.init () -> Structs.StructWrapper.StructWithLetStruct
+  %2 = function_ref @_TFVV7Structs13StructWrapper19StructWithLetStructCfT_S1_ : $@convention(thin) (@thin StructWrapper.StructWithLetStruct.Type) -> StructWrapper.StructWithLetStruct // user: %4
+  %3 = metatype $@thin StructWrapper.StructWithLetStruct.Type // user: %4
+  %4 = apply %2(%3) : $@convention(thin) (@thin StructWrapper.StructWithLetStruct.Type) -> StructWrapper.StructWithLetStruct // users: %6, %42, %44
+  %5 = struct_element_addr %1 : $*StructWrapper, #StructWrapper.l1 // user: %6
+  store %4 to %5 : $*StructWrapper.StructWithLetStruct // id: %6
+  // function_ref Structs.StructWrapper.StructWithVarStruct.init () -> Structs.StructWrapper.StructWithVarStruct
+  %7 = function_ref @_TFVV7Structs13StructWrapper19StructWithVarStructCfT_S1_ : $@convention(thin) (@thin StructWrapper.StructWithVarStruct.Type) -> StructWrapper.StructWithVarStruct // user: %9
+  %8 = metatype $@thin StructWrapper.StructWithVarStruct.Type // user: %9
+  %9 = apply %7(%8) : $@convention(thin) (@thin StructWrapper.StructWithVarStruct.Type) -> StructWrapper.StructWithVarStruct // users: %11, %42, %44
+  %10 = struct_element_addr %1 : $*StructWrapper, #StructWrapper.l2 // user: %11
+  store %9 to %10 : $*StructWrapper.StructWithVarStruct // id: %11
+  // function_ref Structs.StructWrapper.StructWithLetClass.init () -> Structs.StructWrapper.StructWithLetClass
+  %12 = function_ref @_TFVV7Structs13StructWrapper18StructWithLetClassCfT_S1_ : $@convention(thin) (@thin StructWrapper.StructWithLetClass.Type) -> @owned StructWrapper.StructWithLetClass // user: %14
+  %13 = metatype $@thin StructWrapper.StructWithLetClass.Type // user: %14
+  %14 = apply %12(%13) : $@convention(thin) (@thin StructWrapper.StructWithLetClass.Type) -> @owned StructWrapper.StructWithLetClass // users: %16, %42, %44
+  %15 = struct_element_addr %1 : $*StructWrapper, #StructWrapper.l3 // user: %16
+  store %14 to %15 : $*StructWrapper.StructWithLetClass // id: %16
+  // function_ref Structs.StructWrapper.StructWithVarClass.init () -> Structs.StructWrapper.StructWithVarClass
+  %17 = function_ref @_TFVV7Structs13StructWrapper18StructWithVarClassCfT_S1_ : $@convention(thin) (@thin StructWrapper.StructWithVarClass.Type) -> @owned StructWrapper.StructWithVarClass // user: %19
+  %18 = metatype $@thin StructWrapper.StructWithVarClass.Type // user: %19
+  %19 = apply %17(%18) : $@convention(thin) (@thin StructWrapper.StructWithVarClass.Type) -> @owned StructWrapper.StructWithVarClass // users: %21, %42, %44
+  %20 = struct_element_addr %1 : $*StructWrapper, #StructWrapper.l4 // user: %21
+  store %19 to %20 : $*StructWrapper.StructWithVarClass // id: %21
+  // function_ref Structs.StructWrapper.StructWithLetStruct.init () -> Structs.StructWrapper.StructWithLetStruct
+  %22 = function_ref @_TFVV7Structs13StructWrapper19StructWithLetStructCfT_S1_ : $@convention(thin) (@thin StructWrapper.StructWithLetStruct.Type) -> StructWrapper.StructWithLetStruct // user: %24
+  %23 = metatype $@thin StructWrapper.StructWithLetStruct.Type // user: %24
+  %24 = apply %22(%23) : $@convention(thin) (@thin StructWrapper.StructWithLetStruct.Type) -> StructWrapper.StructWithLetStruct // users: %26, %42, %44
+  %25 = struct_element_addr %1 : $*StructWrapper, #StructWrapper.v1 // user: %26
+  store %24 to %25 : $*StructWrapper.StructWithLetStruct // id: %26
+  // function_ref Structs.StructWrapper.StructWithVarStruct.init () -> Structs.StructWrapper.StructWithVarStruct
+  %27 = function_ref @_TFVV7Structs13StructWrapper19StructWithVarStructCfT_S1_ : $@convention(thin) (@thin StructWrapper.StructWithVarStruct.Type) -> StructWrapper.StructWithVarStruct // user: %29
+  %28 = metatype $@thin StructWrapper.StructWithVarStruct.Type // user: %29
+  %29 = apply %27(%28) : $@convention(thin) (@thin StructWrapper.StructWithVarStruct.Type) -> StructWrapper.StructWithVarStruct // users: %31, %42, %44
+  %30 = struct_element_addr %1 : $*StructWrapper, #StructWrapper.v2 // user: %31
+  store %29 to %30 : $*StructWrapper.StructWithVarStruct // id: %31
+  // function_ref Structs.StructWrapper.StructWithLetClass.init () -> Structs.StructWrapper.StructWithLetClass
+  %32 = function_ref @_TFVV7Structs13StructWrapper18StructWithLetClassCfT_S1_ : $@convention(thin) (@thin StructWrapper.StructWithLetClass.Type) -> @owned StructWrapper.StructWithLetClass // user: %34
+  %33 = metatype $@thin StructWrapper.StructWithLetClass.Type // user: %34
+  %34 = apply %32(%33) : $@convention(thin) (@thin StructWrapper.StructWithLetClass.Type) -> @owned StructWrapper.StructWithLetClass // users: %36, %42, %44
+  %35 = struct_element_addr %1 : $*StructWrapper, #StructWrapper.v3 // user: %36
+  store %34 to %35 : $*StructWrapper.StructWithLetClass // id: %36
+  // function_ref Structs.StructWrapper.StructWithVarClass.init () -> Structs.StructWrapper.StructWithVarClass
+  %37 = function_ref @_TFVV7Structs13StructWrapper18StructWithVarClassCfT_S1_ : $@convention(thin) (@thin StructWrapper.StructWithVarClass.Type) -> @owned StructWrapper.StructWithVarClass // user: %39
+  %38 = metatype $@thin StructWrapper.StructWithVarClass.Type // user: %39
+  %39 = apply %37(%38) : $@convention(thin) (@thin StructWrapper.StructWithVarClass.Type) -> @owned StructWrapper.StructWithVarClass // users: %41, %42, %44
+  %40 = struct_element_addr %1 : $*StructWrapper, #StructWrapper.v4 // user: %41
+  store %39 to %40 : $*StructWrapper.StructWithVarClass // id: %41
+  %42 = struct $StructWrapper (%4 : $StructWrapper.StructWithLetStruct, %9 : $StructWrapper.StructWithVarStruct, %14 : $StructWrapper.StructWithLetClass, %19 : $StructWrapper.StructWithVarClass, %24 : $StructWrapper.StructWithLetStruct, %29 : $StructWrapper.StructWithVarStruct, %34 : $StructWrapper.StructWithLetClass, %39 : $StructWrapper.StructWithVarClass) // users: %43, %47
+  retain_value %42 : $StructWrapper               // id: %43
+  %44 = struct $StructWrapper (%4 : $StructWrapper.StructWithLetStruct, %9 : $StructWrapper.StructWithVarStruct, %14 : $StructWrapper.StructWithLetClass, %19 : $StructWrapper.StructWithVarClass, %24 : $StructWrapper.StructWithLetStruct, %29 : $StructWrapper.StructWithVarStruct, %34 : $StructWrapper.StructWithLetClass, %39 : $StructWrapper.StructWithVarClass) // user: %45
+  release_value %44 : $StructWrapper              // id: %45
+  dealloc_stack %1 : $*StructWrapper              // id: %46
+  return %42 : $StructWrapper                     // id: %47
+}
+
+// Structs.StructWrapper.l1.getter : Structs.StructWrapper.StructWithLetStruct
+sil hidden [transparent] @_TFV7Structs13StructWrapperg2l1VS0_19StructWithLetStruct : $@convention(method) (@guaranteed StructWrapper) -> StructWrapper.StructWithLetStruct {
+// %0                                             // users: %1, %2
+bb0(%0 : $StructWrapper):
+  debug_value %0 : $StructWrapper, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $StructWrapper, #StructWrapper.l1 // user: %3
+  return %2 : $StructWrapper.StructWithLetStruct  // id: %3
+}
+
+// Structs.StructWrapper.l2.getter : Structs.StructWrapper.StructWithVarStruct
+sil hidden [transparent] @_TFV7Structs13StructWrapperg2l2VS0_19StructWithVarStruct : $@convention(method) (@guaranteed StructWrapper) -> StructWrapper.StructWithVarStruct {
+// %0                                             // users: %1, %2
+bb0(%0 : $StructWrapper):
+  debug_value %0 : $StructWrapper, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $StructWrapper, #StructWrapper.l2 // user: %3
+  return %2 : $StructWrapper.StructWithVarStruct  // id: %3
+}
+
+// Structs.StructWrapper.l3.getter : Structs.StructWrapper.StructWithLetClass
+sil hidden [transparent] @_TFV7Structs13StructWrapperg2l3VS0_18StructWithLetClass : $@convention(method) (@guaranteed StructWrapper) -> @owned StructWrapper.StructWithLetClass {
+// %0                                             // users: %1, %2
+bb0(%0 : $StructWrapper):
+  debug_value %0 : $StructWrapper, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $StructWrapper, #StructWrapper.l3 // users: %3, %4
+  retain_value %2 : $StructWrapper.StructWithLetClass // id: %3
+  return %2 : $StructWrapper.StructWithLetClass   // id: %4
+}
+
+// Structs.StructWrapper.l4.getter : Structs.StructWrapper.StructWithVarClass
+sil hidden [transparent] @_TFV7Structs13StructWrapperg2l4VS0_18StructWithVarClass : $@convention(method) (@guaranteed StructWrapper) -> @owned StructWrapper.StructWithVarClass {
+// %0                                             // users: %1, %2
+bb0(%0 : $StructWrapper):
+  debug_value %0 : $StructWrapper, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $StructWrapper, #StructWrapper.l4 // users: %3, %4
+  retain_value %2 : $StructWrapper.StructWithVarClass // id: %3
+  return %2 : $StructWrapper.StructWithVarClass   // id: %4
+}
+
+// Structs.StructWrapper.v1.getter : Structs.StructWrapper.StructWithLetStruct
+sil hidden [transparent] @_TFV7Structs13StructWrapperg2v1VS0_19StructWithLetStruct : $@convention(method) (@guaranteed StructWrapper) -> StructWrapper.StructWithLetStruct {
+// %0                                             // users: %1, %2
+bb0(%0 : $StructWrapper):
+  debug_value %0 : $StructWrapper, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $StructWrapper, #StructWrapper.v1 // user: %3
+  return %2 : $StructWrapper.StructWithLetStruct  // id: %3
+}
+
+// Structs.StructWrapper.v1.setter : Structs.StructWrapper.StructWithLetStruct
+sil hidden [transparent] @_TFV7Structs13StructWrappers2v1VS0_19StructWithLetStruct : $@convention(method) (StructWrapper.StructWithLetStruct, @inout StructWrapper) -> () {
+// %0                                             // users: %3, %5
+// %1                                             // users: %2, %4
+bb0(%0 : $StructWrapper.StructWithLetStruct, %1 : $*StructWrapper):
+  debug_value_addr %1 : $*StructWrapper, var, name "self", argno 2 // id: %2
+  debug_value %0 : $StructWrapper.StructWithLetStruct, let, name "value", argno 1 // id: %3
+  %4 = struct_element_addr %1 : $*StructWrapper, #StructWrapper.v1 // user: %5
+  store %0 to %4 : $*StructWrapper.StructWithLetStruct // id: %5
+  %6 = tuple ()                                   // user: %7
+  return %6 : $()                                 // id: %7
+}
+
+// Structs.StructWrapper.v1.materializeForSet : Structs.StructWrapper.StructWithLetStruct
+sil hidden [transparent] @_TFV7Structs13StructWrapperm2v1VS0_19StructWithLetStruct : $@convention(method) (Builtin.RawPointer, @inout Builtin.UnsafeValueBuffer, @inout StructWrapper) -> (Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper, @thick StructWrapper.Type) -> ()>) {
+// %2                                             // user: %3
+bb0(%0 : $Builtin.RawPointer, %1 : $*Builtin.UnsafeValueBuffer, %2 : $*StructWrapper):
+  %3 = struct_element_addr %2 : $*StructWrapper, #StructWrapper.v1 // user: %4
+  %4 = address_to_pointer %3 : $*StructWrapper.StructWithLetStruct to $Builtin.RawPointer // user: %6
+  %5 = enum $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper, @thick StructWrapper.Type) -> ()>, #Optional.None!enumelt // user: %6
+  %6 = tuple (%4 : $Builtin.RawPointer, %5 : $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper, @thick StructWrapper.Type) -> ()>) // user: %7
+  return %6 : $(Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper, @thick StructWrapper.Type) -> ()>) // id: %7
+}
+
+// Structs.StructWrapper.v2.getter : Structs.StructWrapper.StructWithVarStruct
+sil hidden [transparent] @_TFV7Structs13StructWrapperg2v2VS0_19StructWithVarStruct : $@convention(method) (@guaranteed StructWrapper) -> StructWrapper.StructWithVarStruct {
+// %0                                             // users: %1, %2
+bb0(%0 : $StructWrapper):
+  debug_value %0 : $StructWrapper, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $StructWrapper, #StructWrapper.v2 // user: %3
+  return %2 : $StructWrapper.StructWithVarStruct  // id: %3
+}
+
+// Structs.StructWrapper.v2.setter : Structs.StructWrapper.StructWithVarStruct
+sil hidden [transparent] @_TFV7Structs13StructWrappers2v2VS0_19StructWithVarStruct : $@convention(method) (StructWrapper.StructWithVarStruct, @inout StructWrapper) -> () {
+// %0                                             // users: %3, %5
+// %1                                             // users: %2, %4
+bb0(%0 : $StructWrapper.StructWithVarStruct, %1 : $*StructWrapper):
+  debug_value_addr %1 : $*StructWrapper, var, name "self", argno 2 // id: %2
+  debug_value %0 : $StructWrapper.StructWithVarStruct, let, name "value", argno 1 // id: %3
+  %4 = struct_element_addr %1 : $*StructWrapper, #StructWrapper.v2 // user: %5
+  store %0 to %4 : $*StructWrapper.StructWithVarStruct // id: %5
+  %6 = tuple ()                                   // user: %7
+  return %6 : $()                                 // id: %7
+}
+
+// Structs.StructWrapper.v2.materializeForSet : Structs.StructWrapper.StructWithVarStruct
+sil hidden [transparent] @_TFV7Structs13StructWrapperm2v2VS0_19StructWithVarStruct : $@convention(method) (Builtin.RawPointer, @inout Builtin.UnsafeValueBuffer, @inout StructWrapper) -> (Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper, @thick StructWrapper.Type) -> ()>) {
+// %2                                             // user: %3
+bb0(%0 : $Builtin.RawPointer, %1 : $*Builtin.UnsafeValueBuffer, %2 : $*StructWrapper):
+  %3 = struct_element_addr %2 : $*StructWrapper, #StructWrapper.v2 // user: %4
+  %4 = address_to_pointer %3 : $*StructWrapper.StructWithVarStruct to $Builtin.RawPointer // user: %6
+  %5 = enum $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper, @thick StructWrapper.Type) -> ()>, #Optional.None!enumelt // user: %6
+  %6 = tuple (%4 : $Builtin.RawPointer, %5 : $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper, @thick StructWrapper.Type) -> ()>) // user: %7
+  return %6 : $(Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper, @thick StructWrapper.Type) -> ()>) // id: %7
+}
+
+// Structs.StructWrapper.v3.getter : Structs.StructWrapper.StructWithLetClass
+sil hidden [transparent] @_TFV7Structs13StructWrapperg2v3VS0_18StructWithLetClass : $@convention(method) (@guaranteed StructWrapper) -> @owned StructWrapper.StructWithLetClass {
+// %0                                             // users: %1, %2
+bb0(%0 : $StructWrapper):
+  debug_value %0 : $StructWrapper, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $StructWrapper, #StructWrapper.v3 // users: %3, %4
+  retain_value %2 : $StructWrapper.StructWithLetClass // id: %3
+  return %2 : $StructWrapper.StructWithLetClass   // id: %4
+}
+
+// Structs.StructWrapper.v3.setter : Structs.StructWrapper.StructWithLetClass
+sil hidden [transparent] @_TFV7Structs13StructWrappers2v3VS0_18StructWithLetClass : $@convention(method) (@owned StructWrapper.StructWithLetClass, @inout StructWrapper) -> () {
+// %0                                             // users: %3, %4, %7, %9
+// %1                                             // users: %2, %5
+bb0(%0 : $StructWrapper.StructWithLetClass, %1 : $*StructWrapper):
+  debug_value_addr %1 : $*StructWrapper, var, name "self", argno 2 // id: %2
+  debug_value %0 : $StructWrapper.StructWithLetClass, let, name "value", argno 1 // id: %3
+  retain_value %0 : $StructWrapper.StructWithLetClass // id: %4
+  %5 = struct_element_addr %1 : $*StructWrapper, #StructWrapper.v3 // users: %6, %7
+  %6 = load %5 : $*StructWrapper.StructWithLetClass // user: %8
+  store %0 to %5 : $*StructWrapper.StructWithLetClass // id: %7
+  release_value %6 : $StructWrapper.StructWithLetClass // id: %8
+  release_value %0 : $StructWrapper.StructWithLetClass // id: %9
+  %10 = tuple ()                                  // user: %11
+  return %10 : $()                                // id: %11
+}
+
+// Structs.StructWrapper.v3.materializeForSet : Structs.StructWrapper.StructWithLetClass
+sil hidden [transparent] @_TFV7Structs13StructWrapperm2v3VS0_18StructWithLetClass : $@convention(method) (Builtin.RawPointer, @inout Builtin.UnsafeValueBuffer, @inout StructWrapper) -> (Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper, @thick StructWrapper.Type) -> ()>) {
+// %2                                             // user: %3
+bb0(%0 : $Builtin.RawPointer, %1 : $*Builtin.UnsafeValueBuffer, %2 : $*StructWrapper):
+  %3 = struct_element_addr %2 : $*StructWrapper, #StructWrapper.v3 // user: %4
+  %4 = address_to_pointer %3 : $*StructWrapper.StructWithLetClass to $Builtin.RawPointer // user: %6
+  %5 = enum $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper, @thick StructWrapper.Type) -> ()>, #Optional.None!enumelt // user: %6
+  %6 = tuple (%4 : $Builtin.RawPointer, %5 : $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper, @thick StructWrapper.Type) -> ()>) // user: %7
+  return %6 : $(Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper, @thick StructWrapper.Type) -> ()>) // id: %7
+}
+
+// Structs.StructWrapper.v4.getter : Structs.StructWrapper.StructWithVarClass
+sil hidden [transparent] @_TFV7Structs13StructWrapperg2v4VS0_18StructWithVarClass : $@convention(method) (@guaranteed StructWrapper) -> @owned StructWrapper.StructWithVarClass {
+// %0                                             // users: %1, %2
+bb0(%0 : $StructWrapper):
+  debug_value %0 : $StructWrapper, let, name "self", argno 1 // id: %1
+  %2 = struct_extract %0 : $StructWrapper, #StructWrapper.v4 // users: %3, %4
+  retain_value %2 : $StructWrapper.StructWithVarClass // id: %3
+  return %2 : $StructWrapper.StructWithVarClass   // id: %4
+}
+
+// Structs.StructWrapper.v4.setter : Structs.StructWrapper.StructWithVarClass
+sil hidden [transparent] @_TFV7Structs13StructWrappers2v4VS0_18StructWithVarClass : $@convention(method) (@owned StructWrapper.StructWithVarClass, @inout StructWrapper) -> () {
+// %0                                             // users: %3, %4, %7, %9
+// %1                                             // users: %2, %5
+bb0(%0 : $StructWrapper.StructWithVarClass, %1 : $*StructWrapper):
+  debug_value_addr %1 : $*StructWrapper, var, name "self", argno 2 // id: %2
+  debug_value %0 : $StructWrapper.StructWithVarClass, let, name "value", argno 1 // id: %3
+  retain_value %0 : $StructWrapper.StructWithVarClass // id: %4
+  %5 = struct_element_addr %1 : $*StructWrapper, #StructWrapper.v4 // users: %6, %7
+  %6 = load %5 : $*StructWrapper.StructWithVarClass // user: %8
+  store %0 to %5 : $*StructWrapper.StructWithVarClass // id: %7
+  release_value %6 : $StructWrapper.StructWithVarClass // id: %8
+  release_value %0 : $StructWrapper.StructWithVarClass // id: %9
+  %10 = tuple ()                                  // user: %11
+  return %10 : $()                                // id: %11
+}
+
+// Structs.StructWrapper.v4.materializeForSet : Structs.StructWrapper.StructWithVarClass
+sil hidden [transparent] @_TFV7Structs13StructWrapperm2v4VS0_18StructWithVarClass : $@convention(method) (Builtin.RawPointer, @inout Builtin.UnsafeValueBuffer, @inout StructWrapper) -> (Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper, @thick StructWrapper.Type) -> ()>) {
+// %2                                             // user: %3
+bb0(%0 : $Builtin.RawPointer, %1 : $*Builtin.UnsafeValueBuffer, %2 : $*StructWrapper):
+  %3 = struct_element_addr %2 : $*StructWrapper, #StructWrapper.v4 // user: %4
+  %4 = address_to_pointer %3 : $*StructWrapper.StructWithVarClass to $Builtin.RawPointer // user: %6
+  %5 = enum $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper, @thick StructWrapper.Type) -> ()>, #Optional.None!enumelt // user: %6
+  %6 = tuple (%4 : $Builtin.RawPointer, %5 : $Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper, @thick StructWrapper.Type) -> ()>) // user: %7
+  return %6 : $(Builtin.RawPointer, Optional<@convention(thin) (Builtin.RawPointer, inout Builtin.UnsafeValueBuffer, inout StructWrapper, @thick StructWrapper.Type) -> ()>) // id: %7
+}
+
+// globalinit_33_1BDF70FFC18749BAB495A73B459ED2F0_func5
+sil private_external [fragile] @globalinit_33_1BDF70FFC18749BAB495A73B459ED2F0_func5 : $@convention(thin) () -> ()
+
+sil_vtable StructBox {
+  #StructBox.init!initializer.1: _TFC7Structs9StructBoxcfxGS0_x_	// Structs.StructBox.init (A) -> Structs.StructBox<A>
+  #StructBox.deinit!deallocator: _TFC7Structs9StructBoxD	// Structs.StructBox.__deallocating_deinit
+}
+
+
+
