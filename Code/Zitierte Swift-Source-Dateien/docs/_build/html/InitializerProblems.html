@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Problems with Initializers &mdash; Swift 3.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/swift.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="top" title="Swift 3.0 documentation" href="contents.html" />
+<style type="text/css">
+  table.right { float: right; margin-left: 20px; }
+  table.right td { border: 1px solid #ccc; }
+</style>
+
+  </head>
+  <body role="document">
+      <div class="header" role="banner"><h1 class="heading"><a href="index.html">
+          <span>Swift 3.0 documentation</span></a></h1>
+        <h2 class="heading"><span>Problems with Initializers</span></h2>
+      </div>
+      <div class="topnav" role="navigation" aria-label="top navigation">
+      
+        <p>
+        <a class="uplink" href="contents.html">Contents</a>
+        </p>
+
+      </div>
+      <div class="content">
+        
+        
+  <div class="section" id="problem-1-initializers-are-complicated">
+<h1>Problem 1: Initializers are complicated<a class="headerlink" href="#problem-1-initializers-are-complicated" title="Permalink to this headline">¶</a></h1>
+<p>By formalizing Objective-C&#8217;s initialization conventions, we&#8217;ve ended up with a
+tower of complexity where users find it easier to do the wrong thing and then
+follow the compiler fix-its. I [Jordan R] still feel like the individual rules
+aren&#8217;t so complicated:</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">Designated initializers chain.</div>
+<div class="line">Designated initializers are inherited if (a) there are no manual
+initializers, and (b) all properties have initial values.</div>
+</div>
+<div class="line-block">
+<div class="line">Convenience initializers delegate.</div>
+<div class="line">Convenience initializers are inherited if all of the superclass&#8217;s
+designated initializers are present.</div>
+</div>
+<div class="line-block">
+<div class="line">If you want to call an initializer on a dynamic type, it must be marked
+required.</div>
+<div class="line">Protocols are one way to do this, so initializers that satisfy protocol
+requirements must be required.</div>
+<div class="line">If your superclass has a required initializer, you must provide it
+somehow.</div>
+</div>
+</div></blockquote>
+<p>but</p>
+<blockquote>
+<div>&#8220;When even Andy Matuschak and Rob Rix can&#8217;t understand your model, you have
+a problem.&#8221; - Joe Groff</div></blockquote>
+</div>
+<div class="section" id="problem-2-convenience-initializers-are-missing-use-cases">
+<h1>Problem 2: Convenience initializers are missing use cases<a class="headerlink" href="#problem-2-convenience-initializers-are-missing-use-cases" title="Permalink to this headline">¶</a></h1>
+<p>With all our rules, we actually rule out some important use cases, like this one on NSDocument:</p>
+<blockquote>
+<div><p>The <code class="docutils literal"><span class="pre">init</span></code> method of NSDocument is the <em>designated initializer,</em> and it is
+invoked by the other initializers <code class="docutils literal"><span class="pre">initWithType:error:</span></code> and
+<code class="docutils literal"><span class="pre">initWithContentsOfURL:ofType:error:</span></code>. If you perform initializations that
+must be done when creating new documents but not when opening existing
+documents, override <code class="docutils literal"><span class="pre">initWithType:error:</span></code>. If you have any initializations
+that apply only to documents that are opened, override
+<code class="docutils literal"><span class="pre">initWithContentsOfURL:ofType:error:</span></code>. If you have general
+initializations, override <code class="docutils literal"><span class="pre">init</span></code>. In all three cases, be sure to invoke
+the superclass implementation as the first action.</p>
+<p class="attribution">&mdash;<a class="reference external" href="https://developer.apple.com/library/mac/documentation/DataManagement/Conceptual/DocBasedAppProgrammingGuideForOSX/ManagingLifecycle/ManagingLifecycle.html#//apple_ref/doc/uid/TP40011179-CH4-SW11">Document-Based App Programming Guide for Mac</a></p>
+</div></blockquote>
+<p>Because we don&#8217;t allow overriding convenience initializers with other
+convenience initializers, there&#8217;s nowhere to perform post-customization of
+NSDocuments for each particular case.</p>
+</div>
+<div class="section" id="problem-3-factory-initializers">
+<h1>Problem 3: Factory Initializers<a class="headerlink" href="#problem-3-factory-initializers" title="Permalink to this headline">¶</a></h1>
+<p>Finally, we try to standardize on initializers for object creation in Swift,
+even going as far as to import Objective-C factory methods as initializers…but
+there are some patterns that cannot be written in Swift, such as this one:</p>
+<div class="highlight-swift"><div class="highlight"><pre><span></span>class AnyGenerator&lt;Element&gt; : GeneratorType {
+  init&lt;
+    WrappedGenerator: GeneratorType
+  where
+    WrappedGenerator.Element == Element
+  &gt;(wrapped: WrappedGenerator) -&gt; AnyGenerator {
+    return AnyGeneratorImpl(wrapped)
+  }
+  // other generator stuff
+}
+
+class AnyGeneratorImpl&lt;WrappedGenerator: GeneratorType&gt; :
+    AnyGenerator&lt;WrappedGenerator.Element&gt; {
+  var wrapped: WrappedGenerator
+  init(wrapped: WrappedGenerator) {
+    self.wrapped = wrapped
+  }
+  // other generator stuff
+}
+</pre></div>
+</div>
+<p>We ended up making <code class="docutils literal"><span class="pre">AnyGenerator</span></code> a struct that wraps <code class="docutils literal"><span class="pre">AnyGeneratorImpl</span></code> to
+get around this, but it&#8217;s not a nice solution.</p>
+</div>
+<div class="section" id="solutions">
+<h1>Solutions?<a class="headerlink" href="#solutions" title="Permalink to this headline">¶</a></h1>
+<p>We&#8217;ve had a number of ideas for improving the state of the world, including</p>
+<ul class="simple">
+<li>Allow designated initializers to delegate to other designated initializers
+(using static dispatch). This makes convenience initializers a niche feature.</li>
+<li>Add the concept of factory initializers, which don&#8217;t promise to return
+<code class="docutils literal"><span class="pre">Self</span></code>. These are either never inherited or must always be overridden in a
+subclass.</li>
+<li>Allow convenience initializers to chain to superclass convenience
+initializers. This isn&#8217;t strictly safe, but it permits the NSDocument idiom.</li>
+</ul>
+<p>None of these solve all the initializer problems listed above on their own, and
+we&#8217;d want to be careful not to <em>increase</em> complexity in this space.</p>
+</div>
+
+
+      </div>
+      <div class="bottomnav" role="navigation" aria-label="bottom navigation">
+      
+        <p>
+        <a class="uplink" href="contents.html">Contents</a>
+        </p>
+
+      </div>
+
+    <div class="footer" role="contentinfo">
+        &copy; Copyright 2016, Apple Inc.
+      Last updated on 2016-04-29.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.3.4.
+    </div>
+  </body>
+</html>
